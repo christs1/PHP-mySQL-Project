@@ -1,23 +1,13 @@
 <!DOCTYPE html>
-<!-- 
-Template Name:  SmartAdmin Responsive WebApp - Template build with Twitter Bootstrap 4
-Version: 4.6.0
-Author: Sunnyat A.
-Website: http://gootbootstrap.com
-Purchase: https://wrapbootstrap.com/theme/smartadmin-responsive-webapp-WB0573SK0?ref=myorange
-License: You must have a valid license purchased only from wrapbootstrap.com (link above) in order to legally use this theme for your project.
--->
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <title>
             Login | NFL Dashboard
         </title>
-        <meta name="description" content="Login">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
         <!-- Call App Mode on ios devices -->
-        <meta name="apple-mobile-web-app-title" content="Login">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <!-- Mobile proof your site -->
@@ -147,7 +137,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                         <div class="d-flex align-items-center container p-0">
                             <div class="page-logo width-mobile-auto m-0 align-items-center justify-content-center p-0 bg-transparent bg-img-none shadow-0 height-9 border-0">
                                 <a href="javascript:void(0)" class="page-logo-link press-scale-down d-flex align-items-center">
-                                    <img src="img/logo.png" alt="SmartAdmin WebApp" aria-roledescription="logo">
+                                    <img src="img/svg/football-white.svg" alt="SmartAdmin WebApp" aria-roledescription="logo">
                                     <span class="page-logo-text mr-1">NFL Dashboard</span>
                                 </a>
                             </div>
@@ -174,7 +164,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                         Secure login
                                     </h1>
                                     <div class="card p-4 rounded-plus bg-faded">
-                                        <form id="js-login" novalidate="" action="home.php" action="home.php" method="POST">
+                                        <form id="js-login" novalidate="" action="coach/home.php" action="coach/home.php" method="POST">
                                             <div class="form-group">
                                                 <label class="form-label" for="username">Username</label>
                                                 <input type="text" id="username" class="form-control form-control-lg" placeholder="Enter your username" required>

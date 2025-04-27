@@ -159,13 +159,13 @@
                         </a>
                     </div>
                     <ul id="js-nav-menu" class="nav-menu">
-                        <li class="active">
+                        <li class="">
                             <a href="home.php" title="Home" data-filter-tags="home">
                                 <i class="fal fa-globe"></i>
                                 <span class="nav-link-text" data-i18n="nav.home">Home</span>
                             </a>
                         </li>
-                        <li class="">
+                        <li class="active">
                             <a href="players.php" title="Players" data-filter-tags="players">
                                 <i class="fal fa-globe"></i>
                                 <span class="nav-link-text" data-i18n="nav.players">Players</span>
@@ -536,20 +536,92 @@
                     <ol class="breadcrumb page-breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">NFL Dashboard</a></li>
                         <li class="breadcrumb-item active">Coach</li>
-                        <li class="breadcrumb-item">Home</li>
+                        <li class="breadcrumb-item">Players</li>
                         <li class="position-absolute pos-top pos-right d-none d-sm-block"><span
                                 class="js-get-date"></span></li>
                     </ol>
                     <div class="subheader">
                         <h1 class="subheader-title">
-                            <i class='subheader-icon fal fa-globe'></i> Home <span class='fw-300'>Manage</span> <sup
-                                class='badge badge-primary fw-500'>COACH</sup>
+                            <i class='subheader-icon fal fa-plus-circle'></i> Players
                             <small>
-                                Manage your team
+                                Manage and view player details
                             </small>
                         </h1>
                     </div>
-                    <!-- Your main content goes below here: -->
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="border-faded bg-faded p-3 mb-g d-flex">
+                                <input type="text" id="js-filter-contacts" name="filter-contacts"
+                                    class="form-control shadow-inset-2 form-control-lg" placeholder="Filter players ">
+                                <div class="btn-group btn-group-lg btn-group-toggle hidden-lg-down ml-3"
+                                    data-toggle="buttons">
+                                    <label class="btn btn-default active">
+                                        <input type="radio" name="contactview" id="grid" checked="" value="grid"><i
+                                            class="fas fa-table"></i>
+                                    </label>
+                                    <label class="btn btn-default">
+                                        <input type="radio" name="contactview" id="table" value="table"><i
+                                            class="fas fa-th-list"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="js-contacts">
+                        <?php
+                        for ($i = 1; $i <= 10; $i++) {
+                            ?>
+                            <div class="col-xl-4">
+                                <div id="c_<?php echo $i; ?>" class="card border shadow-0 mb-g shadow-sm-hover"
+                                    data-filter-tags="player_<?php echo $i; ?>">
+                                    <div
+                                        class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <span class="status status-success mr-3">
+                                                <span class="rounded-circle profile-image d-block "
+                                                    style="background-image:url('../img/demo/avatars/avatar-b.png'); background-size: cover;"></span>
+                                            </span>
+                                            <div class="info-card-text flex-1">
+                                                <a href="javascript:void(0);"
+                                                    class="fs-xl text-truncate text-truncate-lg text-info"
+                                                    data-toggle="dropdown" aria-expanded="false">
+                                                    Player <?php echo $i; ?>
+                                                    <i class="fal fa-angle-down d-inline-block ml-1 fs-md"></i>
+                                                </a>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#">Send Email</a>
+                                                    <a class="dropdown-item" href="#">Add to next game</a>
+                                                    <a class="dropdown-item" href="#">Drop player</a>
+                                                </div>
+                                                <span class="text-truncate text-truncate-xl">Position <?php echo $i; ?></span>
+                                            </div>
+                                            <button class="js-expand-btn btn btn-sm btn-default d-none"
+                                                data-toggle="collapse" data-target="#c_<?php echo $i; ?> > .card-body + .card-body"
+                                                aria-expanded="false">
+                                                <span class="collapsed-hidden">+</span>
+                                                <span class="collapsed-reveal">-</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0 collapse show">
+                                        <div class="p-3">
+                                            <a href="tel:+13174562564" class="mt-1 d-block fs-sm fw-400 text-dark">
+                                                <i class="fas fa-mobile-alt text-muted mr-2"></i> +1 317-456-2564</a>
+                                            <a href="mailto:player<?php echo $i; ?>@nfldashboard.com"
+                                                class="mt-1 d-block fs-sm fw-400 text-dark">
+                                                <i class="fas fa-mouse-pointer text-muted mr-2"></i>
+                                                player<?php echo $i; ?>@nfldashboard.com</a>
+                                            <address class="fs-sm fw-400 mt-4 text-muted">
+                                                <i class="fas fa-map-pin mr-2"></i> Address <?php echo $i; ?>
+                                            </address>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
                 </main>
                 <!-- this overlay is activated only when mobile menu is triggered -->
                 <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div>

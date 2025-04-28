@@ -20,7 +20,7 @@
     <div class="page-wrapper">
         <div class="page-inner">
             <?php
-                $active_page = 'home';
+                $active_page = 'schedule';
                 include '../templates/partials/coach/left_aside.php';
             ?>
             <div class="page-content-wrapper">
@@ -31,20 +31,22 @@
                     <ol class="breadcrumb page-breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">NFL Dashboard</a></li>
                         <li class="breadcrumb-item active">Coach</li>
-                        <li class="breadcrumb-item">Home</li>
+                        <li class="breadcrumb-item">Schedule</li>
                         <li class="position-absolute pos-top pos-right d-none d-sm-block"><span
                                 class="js-get-date"></span></li>
                     </ol>
                     <div class="subheader">
                         <h1 class="subheader-title">
-                            <i class='subheader-icon fal fa-house'></i> Home <span class='fw-300'>Manage</span> <sup
-                                class='badge badge-primary fw-500'>COACH</sup>
+                            <i class='subheader-icon fal fa-calendar'></i> Schedule
                             <small>
-                                Manage your team
+                                View and manage your team's schedule
                             </small>
                         </h1>
                     </div>
                     <!-- Your main content goes below here: -->
+                    <?php
+                        include '../templates/partials/coach/schedule/schedule.php';
+                    ?>
                 </main>
                 <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div>
                 <?php

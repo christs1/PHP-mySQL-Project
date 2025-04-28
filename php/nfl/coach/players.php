@@ -37,7 +37,7 @@
                     </ol>
                     <div class="subheader">
                         <h1 class="subheader-title">
-                            <i class='subheader-icon fal fa-plus-circle'></i> Players
+                            <i class='subheader-icon fal fa-user'></i> Players
                             <small>
                                 Manage and view player details
                             </small>

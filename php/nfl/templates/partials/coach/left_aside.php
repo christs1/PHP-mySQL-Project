@@ -49,6 +49,12 @@
                     <span class="nav-link-text" data-i18n="nav.players">Players</span>
                 </a>
             </li>
+            <li class="<?php echo ($active_page == 'schedule') ? 'active' : ''; ?>">
+                <a href="schedule.php" title="Schedule" data-filter-tags="schedule">
+                    <i class="fal fa-calendar"></i>
+                    <span class="nav-link-text" data-i18n="nav.schedule">Schedule</span>
+                </a>
+            </li>
         </ul>
         <div class="filter-message js-filter-message bg-success-600"></div>
     </nav>

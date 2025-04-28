@@ -164,7 +164,7 @@
                                         Secure login
                                     </h1>
                                     <div class="card p-4 rounded-plus bg-faded">
-                                        <form id="js-login" novalidate="" action="coach/home.php" action="coach/home.php" method="POST">
+                                        <form id="js-login" novalidate="" action="coach/index.php" action="coach/home.php" method="POST">
                                             <div class="form-group">
                                                 <label class="form-label" for="username">Username</label>
                                                 <input type="text" id="username" class="form-control form-control-lg" placeholder="Enter your username" required>

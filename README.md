@@ -5,10 +5,9 @@
 
 <br />
 <div align="center">
-
-  <a href="https://github.com/christs1/PHP-mySQL-Project">
-    <img src="/img/svg/football-white.svg" alt="Logo" height="60">
-  </a>
+<a href="https://github.com/christs1/PHP-mySQL-Project">
+  <img src="./img/svg/football-white.svg" alt="Logo" height="60" style="filter: invert(1);">
+</a>
 
   <h3 align="center">NFL Dashboard</h3>
 
@@ -25,13 +24,53 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
+### Prerequisites
+
+This project requires [XAMPP](https://www.apachefriends.org/index.html) to run a local Apache server with PHP and MySQL. Ensure you have XAMPP installed on your system before proceeding.
+
+1. Download XAMPP from the [official website](https://www.apachefriends.org/index.html).
+2. Install XAMPP and start the Apache and MySQL modules from the XAMPP Control Panel.
+
+
+### Clone the repository
+
 Clone the repository into your `htdocs` directory.
 
 ```bash
 cd /path/to/htdocs
 git clone git@github.com:christs1/PHP-mySQL-Project.git
-cd PHP-mySQL-Project
 ```
+
+### Rename the Project Directory
+
+If you'd like to access the project using a different path in your browser, you can rename the project directory as follows:
+
+```bash
+mv PHP-mySQL-Project/ nfl/
+```
+
+After renaming, you can access the project in your browser at:
+
+```
+http://localhost/nfl/
+```
+
+## Foler Structure
+The project folder structure is organized as follows:
+
+```
+PHP-mySQL-Project/
+├── css/                # Stylesheets for the project
+├── img/                # Images and icons used in the project
+│   ├── svg/            # SVG icons
+├── js/                 # JavaScript files
+├── php/                # PHP scripts for backend logic
+├── smartadmin/         # Smartadmin files
+├── sql/                # SQL scripts for database setup
+├── index.php           # Main entry point of the application
+└── README.md           # Project documentation
+```
+
 
 ## Top Contributors
 

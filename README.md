@@ -60,17 +60,23 @@ The project folder structure is organized as follows:
 
 ```
 PHP-mySQL-Project/
+├── coach/              # PHP pages for coach accounts
+├── config/             # Store configuration files
 ├── css/                # Stylesheets for the project
+├── fan/                # PHP pages for fan accounts
 ├── img/                # Images and icons used in the project
 │   ├── svg/            # SVG icons
+├── includes/           # For shared code/helper functions
 ├── js/                 # JavaScript files
 ├── php/                # PHP scripts for backend logic
+├── player/             # PHP pages for player accounts
 ├── smartadmin/         # Smartadmin files
 ├── sql/                # SQL scripts for database setup
+├── statistician/       # PHP pages for statistician accounts
+├── templates/          # HTML templates for reusable components
 ├── index.php           # Main entry point of the application
 └── README.md           # Project documentation
 ```
-
 
 ## Top Contributors
 

@@ -85,7 +85,7 @@
                 <div class="custom-scroll h-100">
                     <ul class="app-list">
                         <li>
-                            <a href="#" class="app-list-item hover-white">
+                            <a href="/nfl/coach/account.php" class="app-list-item hover-white">
                                 <span class="icon-stack">
                                     <i class="base-2 icon-stack-3x color-primary-400"></i>
                                     <i class="base-10 text-white icon-stack-1x"></i>

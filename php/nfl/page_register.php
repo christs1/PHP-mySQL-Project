@@ -104,6 +104,7 @@
                                                 <option selected value="">Choose an account type</option>
                                                 <option value="statistician">Statistician</option>
                                                 <option value="manager">Manager</option>
+                                                <option value="coach">Coach</option>
                                                 <option value="player">Player</option>
                                             </select>
                                             <div class="invalid-feedback">Please select an account type.</div>

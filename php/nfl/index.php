@@ -41,38 +41,8 @@
         <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5">
         <link rel="stylesheet" media="screen, print" href="css/fa-brands.css">
     </head>
-    <!-- BEGIN Body -->
-    <!-- Possible Classes
-
-		* 'header-function-fixed'         - header is in a fixed at all times
-		* 'nav-function-fixed'            - left panel is fixed
-		* 'nav-function-minify'			  - skew nav to maximize space
-		* 'nav-function-hidden'           - roll mouse on edge to reveal
-		* 'nav-function-top'              - relocate left pane to top
-		* 'mod-main-boxed'                - encapsulates to a container
-		* 'nav-mobile-push'               - content pushed on menu reveal
-		* 'nav-mobile-no-overlay'         - removes mesh on menu reveal
-		* 'nav-mobile-slide-out'          - content overlaps menu
-		* 'mod-bigger-font'               - content fonts are bigger for readability
-		* 'mod-high-contrast'             - 4.5:1 text contrast ratio
-		* 'mod-color-blind'               - color vision deficiency
-		* 'mod-pace-custom'               - preloader will be inside content
-		* 'mod-clean-page-bg'             - adds more whitespace
-		* 'mod-hide-nav-icons'            - invisible navigation icons
-		* 'mod-disable-animation'         - disables css based animations
-		* 'mod-hide-info-card'            - hides info card from left panel
-		* 'mod-lean-subheader'            - distinguished page header
-		* 'mod-nav-link'                  - clear breakdown of nav links
-
-		>>> more settings are described inside documentation page >>>
-	-->
     <body>
-        <!-- DOC: script to save and load page settings -->
         <script>
-            /**
-             *	This script should be placed right after the body tag for fast execution 
-             *	Note: the script is written in pure javascript and does not depend on thirdparty library
-             **/
             'use strict';
 
             var htmlRoot = document.getElementsByTagName('HTML')[0],
@@ -141,7 +111,7 @@
                                     <span class="page-logo-text mr-1">NFL Dashboard</span>
                                 </a>
                             </div>
-                            <a href="page_register.html" class="btn-link text-white ml-auto">
+                            <a href="page_register.php" class="btn-link text-white ml-auto">
                                 Create Account
                             </a>
                         </div>

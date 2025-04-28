@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div class="col-xl-12">
       <div class="border-faded bg-faded p-3 mb-g d-flex">
           <input type="text" id="js-filter-contacts" name="filter-contacts"
@@ -16,7 +16,7 @@
           </div>
       </div>
   </div>
-</div>
+</div> -->
 
 <div class="row" id="js-contacts">
 <?php
@@ -57,13 +57,13 @@ for ($i = 1; $i <= 10; $i++) {
             <div class="card-body p-0 collapse show">
                 <div class="p-3">
                     <a href="tel:+13174562564" class="mt-1 d-block fs-sm fw-400 text-dark">
-                        <i class="fas fa-mobile-alt text-muted mr-2"></i> +1 317-456-2564</a>
+                        <i class="fal fa-mobile-alt text-muted mr-2"></i> +1 317-456-2564</a>
                     <a href="mailto:player<?php echo $i; ?>@nfldashboard.com"
                         class="mt-1 d-block fs-sm fw-400 text-dark">
-                        <i class="fas fa-mouse-pointer text-muted mr-2"></i>
+                        <i class="fal fa-envelope text-muted mr-2"></i>
                         player<?php echo $i; ?>@nfldashboard.com</a>
                     <address class="fs-sm fw-400 mt-4 text-muted">
-                        <i class="fas fa-map-pin mr-2"></i> Address <?php echo $i; ?>
+                        <i class="fal fa-map-pin mr-2"></i> Address <?php echo $i; ?>
                     </address>
                 </div>
             </div>

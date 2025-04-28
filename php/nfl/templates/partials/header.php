@@ -16,7 +16,7 @@
             <i class="ni ni-menu"></i>
         </a>
     </div>
-    <div class="search">
+    <!-- <div class="search">
         <form class="app-forms hidden-xs-down" role="search" action="page_search.html" autocomplete="off">
             <input type="text" id="search-field" placeholder="Search for anything" class="form-control" tabindex="1">
             <a href="#" onclick="return false;" class="btn-danger btn-search-close js-waves-off d-none"
@@ -24,7 +24,7 @@
                 <i class="fal fa-times"></i>
             </a>
         </form>
-    </div>
+    </div> -->
     <div class="ml-auto d-flex">
         <!-- activate app search icon (mobile) -->
         <div class="hidden-sm-up">
@@ -97,14 +97,14 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="app-list-item hover-white">
+                            <a href="/nfl/coach/schedule.php" class="app-list-item hover-white">
                                 <span class="icon-stack">
                                     <i class="base-18 icon-stack-3x color-info-700"></i>
                                     <span
                                         class="position-absolute pos-top pos-left pos-right color-white fs-md mt-2 fw-400">28</span>
                                 </span>
                                 <span class="app-list-name">
-                                    Calendar
+                                    Schedule
                                 </span>
                             </a>
                         </li>

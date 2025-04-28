@@ -37,8 +37,7 @@
                     </ol>
                     <div class="subheader">
                         <h1 class="subheader-title">
-                            <i class='subheader-icon fal fa-house'></i> Home <span class='fw-300'>Manage</span> <sup
-                                class='badge badge-primary fw-500'>COACH</sup>
+                            <i class='subheader-icon fal fa-house'></i> Home
                             <small>
                                 Manage your team
                             </small>

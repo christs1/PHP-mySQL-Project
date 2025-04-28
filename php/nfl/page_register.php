@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>
-        Register | Dashboard
+        Register | NFL Dashboard
     </title>
     <meta name="description" content="Login">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -66,24 +66,9 @@
     <div class="page-wrapper auth">
         <div class="page-inner bg-brand-gradient">
             <div class="page-content-wrapper bg-transparent m-0">
-                <div class="height-10 w-100 shadow-lg px-4 bg-brand-gradient">
-                    <div class="d-flex align-items-center container p-0">
-                        <div
-                            class="page-logo width-mobile-auto m-0 align-items-center justify-content-center p-0 bg-transparent bg-img-none shadow-0 height-9 border-0">
-                            <a href="javascript:void(0)"
-                                class="page-logo-link press-scale-down d-flex align-items-center">
-                                <img src="img/svg/football-white.svg" alt="SmartAdmin WebApp" aria-roledescription="logo">
-                                <span class="page-logo-text mr-1">NFL Dashboard</span>
-                            </a>
-                        </div>
-                        <span class="text-white opacity-50 ml-auto mr-2 hidden-sm-down">
-                            Already a member?
-                        </span>
-                        <a href="/nfl/" class="btn-link text-white ml-auto ml-sm-0">
-                            Secure Login
-                        </a>
-                    </div>
-                </div>
+                <?php
+                    include_once 'templates/partials/signup_header.php';
+                ?>
                 <div class="flex-1"
                     style="background: url(img/svg/pattern-1.svg) no-repeat center bottom fixed; background-size: cover;">
                     <div class="container py-4 py-lg-5 my-lg-5 px-4 px-sm-0">
@@ -99,8 +84,7 @@
                             </div>
                             <div class="col-xl-6 ml-auto mr-auto">
                                 <div class="card p-4 rounded-plus bg-faded">
-                                    <form id="js-login" novalidate="" action="intel_introduction.html"
-                                        action="intel_analytics_dashboard.html">
+                                    <form id="js-login" novalidate="" action="page_confirmation.php">
                                         <div class="form-group row">
                                             <label class="col-xl-12 form-label" for="fname">Your first and last name</label>
                                             <div class="col-6 pr-1">

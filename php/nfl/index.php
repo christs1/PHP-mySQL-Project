@@ -145,6 +145,16 @@
                                                 <input type="password" id="password" class="form-control form-control-lg" placeholder="Enter your password" required>
                                                 <div class="invalid-feedback">You must enter a password</div>
                                             </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Account type</label>
+                                                <select class="custom-select form-control" required>
+                                                    <option selected value="">Choose an account type</option>
+                                                    <option value="statistician">Statistician</option>
+                                                    <option value="manager">Manager</option>
+                                                    <option value="player">Player</option>
+                                                </select>
+                                                <div class="invalid-feedback">Please select an account type.</div>
+                                            </div>
                                             <div class="form-group text-left">
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="rememberme">

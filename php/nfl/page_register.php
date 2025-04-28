@@ -99,6 +99,16 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="form-label">Account type</label>
+                                            <select class="custom-select form-control" required>
+                                                <option selected value="">Choose an account type</option>
+                                                <option value="statistician">Statistician</option>
+                                                <option value="manager">Manager</option>
+                                                <option value="player">Player</option>
+                                            </select>
+                                            <div class="invalid-feedback">Please select an account type.</div>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="form-label" for="emailverify">Email will be needed for
                                                 verification and account recovery</label>
                                             <input type="email" id="emailverify" class="form-control"

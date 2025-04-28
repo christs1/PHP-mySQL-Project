@@ -21,7 +21,7 @@
         <div class="page-inner">
             <?php
                 $active_page = 'players';
-                include '../templates/partials/left_aside.php';
+                include '../templates/partials/coach/left_aside.php';
             ?>
             <div class="page-content-wrapper">
                 <?php

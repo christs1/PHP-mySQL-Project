@@ -1,7 +1,7 @@
 <!-- BEGIN Left Aside -->
 <aside class="page-sidebar">
     <div class="page-logo">
-        <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative"
+        <a href="/nfl/coach/" class="page-logo-link press-scale-down d-flex align-items-center position-relative"
             data-toggle="modal" data-target="#modal-shortcut">
             <img src="../img/svg/football-white.svg" alt="SmartAdmin WebApp" aria-roledescription="logo">
             <span class="page-logo-text mr-1">NFL Dashboard</span>
@@ -30,7 +30,7 @@
                 </a>
                 <span class="d-inline-block text-truncate text-truncate-sm">Coach</span>
             </div>
-            <img src="../img/card-backgrounds/cover-2-lg.png" class="cover" alt="cover">
+            <img src="../img/card-backgrounds/field.png" class="cover" alt="cover">
             <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle"
                 data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">
                 <i class="fal fa-angle-down"></i>
@@ -38,14 +38,14 @@
         </div>
         <ul id="js-nav-menu" class="nav-menu">
             <li class="<?php echo ($active_page == 'home') ? 'active' : ''; ?>">
-                <a href="home.php" title="Home" data-filter-tags="home">
-                    <i class="fal fa-globe"></i>
+                <a href="/nfl/coach/" title="Home" data-filter-tags="home">
+                    <i class="fal fa-house"></i>
                     <span class="nav-link-text" data-i18n="nav.home">Home</span>
                 </a>
             </li>
             <li class="<?php echo ($active_page == 'players') ? 'active' : ''; ?>">
                 <a href="players.php" title="Players" data-filter-tags="players">
-                    <i class="fal fa-globe"></i>
+                    <i class="fal fa-user"></i>
                     <span class="nav-link-text" data-i18n="nav.players">Players</span>
                 </a>
             </li>

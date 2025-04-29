@@ -134,20 +134,20 @@
                                         Secure login
                                     </h1>
                                     <div class="card p-4 rounded-plus bg-faded">
-                                        <form id="js-login" novalidate="" action="coach/index.php" action="coach/home.php" method="POST">
+                                        <form id="js-login" novalidate="" action="php/process_login.php" method="POST">
                                             <div class="form-group">
                                                 <label class="form-label" for="username">Username</label>
-                                                <input type="text" id="username" class="form-control form-control-lg" placeholder="Enter your username" required>
+                                                <input type="text" id="username" name="username" class="form-control form-control-lg" placeholder="Enter your username" required>
                                                 <div class="invalid-feedback">You must enter a username</div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label" for="password">Password</label>
-                                                <input type="password" id="password" class="form-control form-control-lg" placeholder="Enter your password" required>
+                                                <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Enter your password" required>
                                                 <div class="invalid-feedback">You must enter a password</div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">Account type</label>
-                                                <select class="custom-select form-control" required>
+                                                <select class="custom-select form-control" name="account_type" required>
                                                     <option selected value="">Choose an account type</option>
                                                     <option value="statistician">Statistician</option>
                                                     <option value="manager">Manager</option>

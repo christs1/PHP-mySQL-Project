@@ -20,7 +20,7 @@
     <div class="page-wrapper">
         <div class="page-inner">
             <?php
-                $active_page = 'players';
+                $active_page = 'roster';
                 include '../templates/partials/coach/left_aside.php';
             ?>
             <div class="page-content-wrapper">
@@ -37,9 +37,9 @@
                     </ol>
                     <div class="subheader">
                         <h1 class="subheader-title">
-                            <i class='subheader-icon fal fa-user'></i> Players
+                            <i class='subheader-icon fal fa-user'></i> Roster
                             <small>
-                                Manage and view player details
+                                Manage players that will play in thex upcoming game.
                             </small>
                         </h1>
                     </div>

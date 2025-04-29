@@ -21,7 +21,8 @@ for ($i = 1; $i <= 10; $i++) {
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#">Send Email</a>
-                            <a class="dropdown-item" href="#">Add to next game</a>
+                            <a class="dropdown-item" href="#">Change position</a>
+                            <a class="dropdown-item" href="#">Move to reserves</a>
                             <a class="dropdown-item" href="#">Drop player</a>
                         </div>
                         <span class="text-truncate text-truncate-xl">Position <?php echo $i; ?></span>
@@ -36,6 +37,8 @@ for ($i = 1; $i <= 10; $i++) {
             </div>
             <div class="card-body p-0 collapse show">
                 <div class="p-3">
+                    <a href="#" class="mt-1 d-block fs-sm fw-400 text-dark">
+                        <i class="fal fa-school text-muted mr-2"></i> California State University, Fullerton</a>
                     <a href="tel:+13174562564" class="mt-1 d-block fs-sm fw-400 text-dark">
                         <i class="fal fa-mobile-alt text-muted mr-2"></i> +1 317-456-2564</a>
                     <a href="mailto:player<?php echo $i; ?>@nfldashboard.com"

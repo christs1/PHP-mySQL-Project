@@ -43,10 +43,10 @@
                     <span class="nav-link-text" data-i18n="nav.home">Home</span>
                 </a>
             </li>
-            <li class="<?php echo ($active_page == 'players') ? 'active' : ''; ?>">
-                <a href="players.php" title="Players" data-filter-tags="players">
+            <li class="<?php echo ($active_page == 'roster') ? 'active' : ''; ?>">
+                <a href="roster.php" title="roster" data-filter-tags="roster">
                     <i class="fal fa-user"></i>
-                    <span class="nav-link-text" data-i18n="nav.players">Players</span>
+                    <span class="nav-link-text" data-i18n="nav.roster">Roster</span>
                 </a>
             </li>
             <li class="<?php echo ($active_page == 'schedule') ? 'active' : ''; ?>">

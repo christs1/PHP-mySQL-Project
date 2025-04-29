@@ -49,6 +49,18 @@
                     <span class="nav-link-text" data-i18n="nav.roster">Roster</span>
                 </a>
             </li>
+            <li class="<?php echo ($active_page == 'reserves') ? 'active' : ''; ?>">
+                <a href="reserves.php" title="reserves" data-filter-tags="reserves">
+                    <i class="fal fa-user"></i>
+                    <span class="nav-link-text" data-i18n="nav.reserves">Reserves</span>
+                </a>
+            </li>
+            <li class="<?php echo ($active_page == 'free_agents') ? 'active' : ''; ?>">
+                <a href="free_agents.php" title="free_agents" data-filter-tags="free_agents">
+                    <i class="fal fa-user"></i>
+                    <span class="nav-link-text" data-i18n="nav.free_agents">Free Agents</span>
+                </a>
+            </li>
             <li class="<?php echo ($active_page == 'schedule') ? 'active' : ''; ?>">
                 <a href="schedule.php" title="Schedule" data-filter-tags="schedule">
                     <i class="fal fa-calendar"></i>

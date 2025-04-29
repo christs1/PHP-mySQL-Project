@@ -20,7 +20,7 @@
     <div class="page-wrapper">
         <div class="page-inner">
             <?php
-                $active_page = 'roster';
+                $active_page = 'free_agents';
                 include '../templates/partials/coach/left_aside.php';
             ?>
             <div class="page-content-wrapper">
@@ -37,9 +37,9 @@
                     </ol>
                     <div class="subheader">
                         <h1 class="subheader-title">
-                            <i class='subheader-icon fal fa-user'></i> Roster
+                            <i class='subheader-icon fal fa-user'></i> Free Agents
                             <small>
-                                Manage players that will play in the upcoming game.
+                                Browse free agents available in the league and add them to your team.
                             </small>
                         </h1>
                     </div>

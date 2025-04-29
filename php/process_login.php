@@ -20,6 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     case 'player':
       header('Location: /nfl/player/');
       break;
+    case 'statistician':
+      header('Location: /nfl/statistician/');
+      break;
     default:
       die('Invalid account type.');
   }

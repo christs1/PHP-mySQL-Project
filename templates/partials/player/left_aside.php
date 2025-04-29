@@ -25,10 +25,10 @@
             <div class="info-card-text">
                 <a href="#" class="d-flex align-items-center text-white">
                     <span class="text-truncate text-truncate-sm d-inline-block">
-                        Coach Name
+                        Player Name
                     </span>
                 </a>
-                <span class="d-inline-block text-truncate text-truncate-sm">Coach</span>
+                <span class="d-inline-block text-truncate text-truncate-sm">Player</span>
             </div>
             <img src="../img/card-backgrounds/field.png" class="cover" alt="cover">
             <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle"
@@ -41,24 +41,6 @@
                 <a href="/nfl/coach/" title="Home" data-filter-tags="home">
                     <i class="fal fa-house"></i>
                     <span class="nav-link-text" data-i18n="nav.home">Home</span>
-                </a>
-            </li>
-            <li class="<?php echo ($active_page == 'players') ? 'active' : ''; ?>">
-                <a href="players.php" title="Players" data-filter-tags="players">
-                    <i class="fal fa-user"></i>
-                    <span class="nav-link-text" data-i18n="nav.players">Players</span>
-                </a>
-            </li>
-            <li class="<?php echo ($active_page == 'schedule') ? 'active' : ''; ?>">
-                <a href="schedule.php" title="Schedule" data-filter-tags="schedule">
-                    <i class="fal fa-calendar"></i>
-                    <span class="nav-link-text" data-i18n="nav.schedule">Schedule</span>
-                </a>
-            </li>
-            <li class="<?php echo ($active_page == 'account') ? 'active' : ''; ?>">
-                <a href="account.php" title="Account" data-filter-tags="account">
-                    <i class="fal fa-user-circle"></i>
-                    <span class="nav-link-text" data-i18n="nav.account">Account</span>
                 </a>
             </li>
         </ul>

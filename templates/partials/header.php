@@ -290,7 +290,7 @@
         <div>
             <a href="#" data-toggle="dropdown" title="drlantern@gotbootstrap.com"
                 class="header-icon d-flex align-items-center justify-content-center ml-2">
-                <img src="../img/profile-pics/andy_reid.jpeg" class="profile-image rounded-circle"
+                <img src="../img/profile-pics/default_profile.jpg" class="profile-image rounded-circle"
                     alt="Dr. Codex Lantern">
                 <!-- you can also add username next to the avatar with the codes below:
 									<span class="ml-1 mr-1 text-truncate text-truncate-header hidden-xs-down">Me</span>
@@ -300,11 +300,11 @@
                 <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
                     <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
                         <span class="mr-2">
-                            <img src="../img/profile-pics/andy_reid.jpeg" class="rounded-circle profile-image"
+                            <img src="../img/profile-pics/default_profile.jpg" class="rounded-circle profile-image"
                                 alt="Dr. Codex Lantern">
                         </span>
                         <div class="info-card-text">
-                            <div class="fs-lg text-truncate text-truncate-lg">Coach Andy Reid</div>
+                            <div class="fs-lg text-truncate text-truncate-lg">Coach Name</div>
                             <span class="text-truncate text-truncate-md opacity-80">andy@kansascity.com</span>
                         </div>
                     </div>

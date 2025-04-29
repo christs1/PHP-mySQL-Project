@@ -1,23 +1,3 @@
-<!-- <div class="row">
-  <div class="col-xl-12">
-      <div class="border-faded bg-faded p-3 mb-g d-flex">
-          <input type="text" id="js-filter-contacts" name="filter-contacts"
-              class="form-control shadow-inset-2 form-control-lg" placeholder="Filter players ">
-          <div class="btn-group btn-group-lg btn-group-toggle hidden-lg-down ml-3"
-              data-toggle="buttons">
-              <label class="btn btn-default active">
-                  <input type="radio" name="contactview" id="grid" checked="" value="grid"><i
-                      class="fas fa-table"></i>
-              </label>
-              <label class="btn btn-default">
-                  <input type="radio" name="contactview" id="table" value="table"><i
-                      class="fas fa-th-list"></i>
-              </label>
-          </div>
-      </div>
-  </div>
-</div> -->
-
 <div class="row" id="js-contacts">
 <?php
 for ($i = 1; $i <= 10; $i++) {
@@ -30,7 +10,7 @@ for ($i = 1; $i <= 10; $i++) {
                 <div class="d-flex flex-row align-items-center">
                     <span class="status status-success mr-3">
                         <span class="rounded-circle profile-image d-block "
-                            style="background-image:url('../img/demo/avatars/avatar-b.png'); background-size: cover;"></span>
+                            style="background-image:url('../img/profile-pics/default_profile.jpg'); background-size: cover;"></span>
                     </span>
                     <div class="info-card-text flex-1">
                         <a href="javascript:void(0);"

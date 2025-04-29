@@ -149,10 +149,10 @@
                                                 <label class="form-label">Account type</label>
                                                 <select class="custom-select form-control" name="account_type" required>
                                                     <option selected value="">Choose an account type</option>
-                                                    <option value="statistician">Statistician</option>
-                                                    <option value="manager">Manager</option>
                                                     <option value="coach">Coach</option>
+                                                    <option value="manager">Fan</option>
                                                     <option value="player">Player</option>
+                                                    <option value="statistician">Statistician</option>
                                                 </select>
                                                 <div class="invalid-feedback">Please select an account type.</div>
                                             </div>

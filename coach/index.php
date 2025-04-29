@@ -8,7 +8,7 @@
     </title>
     <meta name="description" content="NFL Dashboard">
     <?php
-        include '../templates/partials/coach/head_imports.php';
+        include '../templates/partials/all_accounts/head_imports.php';
     ?>
 </head>
 
@@ -56,7 +56,7 @@
         </div>
     </div>
     <?php
-        include '../templates/partials/coach/js_imports.php';
+        include '../templates/partials/all_accounts/js_imports.php';
     ?>
 </body>
 </html>

@@ -125,6 +125,9 @@
                                         <small class="h3 fw-300 mt-3 mb-5 text-white opacity-60">
                                             Welcome to the NFL Dashboard! This platform is here to help you analyze performance, strategize effectively, and stay organized. With real-time data and advanced analytics, you have the tools to make informed decisions and achieve your goals both on and off the field.
                                         </small>
+                                        <a href="fan/" class="btn btn-outline-light btn-lg mt-3">
+                                            View as Fan
+                                        </a>
                                     </h2>
                                     <div class="d-sm-flex flex-column align-items-center justify-content-center d-md-block">
                                     </div>
@@ -150,7 +153,6 @@
                                                 <select class="custom-select form-control" name="account_type" required>
                                                     <option selected value="">Choose an account type</option>
                                                     <option value="coach">Coach</option>
-                                                    <option value="manager">Fan</option>
                                                     <option value="player">Player</option>
                                                     <option value="statistician">Statistician</option>
                                                 </select>

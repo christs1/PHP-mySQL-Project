@@ -20,33 +20,30 @@
     <div class="page-wrapper">
         <div class="page-inner">
             <?php
-                $active_page = 'players';
-                include '../templates/partials/coach/left_aside.php';
+                $active_page = 'home';
+                include '../templates/partials/fan/left_aside.php';
             ?>
             <div class="page-content-wrapper">
                 <?php
-                    include '../templates/partials/header.php';
+                    include '../templates/partials/fan/header.php';
                 ?>
                 <main id="js-page-content" role="main" class="page-content">
                     <ol class="breadcrumb page-breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">NFL Dashboard</a></li>
-                        <li class="breadcrumb-item active">Coach</li>
-                        <li class="breadcrumb-item">Players</li>
+                        <li class="breadcrumb-item active">Fan</li>
+                        <li class="breadcrumb-item">Home</li>
                         <li class="position-absolute pos-top pos-right d-none d-sm-block"><span
                                 class="js-get-date"></span></li>
                     </ol>
                     <div class="subheader">
                         <h1 class="subheader-title">
-                            <i class='subheader-icon fal fa-user'></i> Players
+                            <i class='subheader-icon fal fa-house'></i> Home
                             <small>
-                                Manage and view player details
+                                Welcome to the NFL Dashboard
                             </small>
                         </h1>
                     </div>
                     <!-- Your main content goes below here: -->
-                    <?php
-                        include '../templates/partials/coach/players/players.php';
-                    ?>
                 </main>
                 <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div>
                 <?php

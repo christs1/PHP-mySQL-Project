@@ -19,6 +19,7 @@
                         <thead>
                             <tr>
                                 <th>Player</th>
+                                <th>Team</th>
                                 <th>Games Played</th>
                                 <th>Reception</th>
                                 <th>Yards</th>
@@ -29,15 +30,16 @@
                         <tbody>
                             <?php
                             $games = [
-                              ['player' => 'Player 1', 'played' => 16, 'reception' => 85, 'Yards' => 1200, 'touchdowns' => 10, 'longest' => 67],
-                              ['player' => 'Player 2', 'played' => 14, 'reception' => 78, 'Yards' => 1100, 'touchdowns' => 8, 'longest' => 65],
-                              ['player' => 'Player 3', 'played' => 15, 'reception' => 80, 'Yards' => 1150, 'touchdowns' => 9, 'longest' => 69],
-                              ['player' => 'Player 4', 'played' => 13, 'reception' => 70, 'Yards' => 950, 'touchdowns' => 7, 'longest' => 62],
+                              ['player' => 'Player 1', 'team' => 'Team A', 'played' => 16, 'reception' => 85, 'Yards' => 1200, 'touchdowns' => 10, 'longest' => 67],
+                              ['player' => 'Player 2', 'team' => 'Team A', 'played' => 14, 'reception' => 78, 'Yards' => 1100, 'touchdowns' => 8, 'longest' => 65],
+                              ['player' => 'Player 3', 'team' => 'Team A', 'played' => 15, 'reception' => 80, 'Yards' => 1150, 'touchdowns' => 9, 'longest' => 69],
+                              ['player' => 'Player 4', 'team' => 'Team A', 'played' => 13, 'reception' => 70, 'Yards' => 950, 'touchdowns' => 7, 'longest' => 62],
                             ];
 
                             foreach ($games as $game) {
                                 echo '<tr>';
                                 echo '<td>' . htmlspecialchars($game['player']) . '</td>';
+                                echo '<td>' . htmlspecialchars($game['team']) . '</td>';
                                 echo '<td>' . htmlspecialchars($game['played']) . '</td>';
                                 echo '<td>' . htmlspecialchars($game['reception']) . '</td>';
                                 echo '<td>' . htmlspecialchars($game['Yards']) . '</td>';

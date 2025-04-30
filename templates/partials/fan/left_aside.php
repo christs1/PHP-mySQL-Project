@@ -20,10 +20,22 @@
             </div>
         </div>
         <ul id="js-nav-menu" class="nav-menu">
-            <li class="<?php echo ($active_page == 'home') ? 'active' : ''; ?>">
-                <a href="/nfl/fan/" title="Home" data-filter-tags="home">
-                    <i class="fal fa-house"></i>
-                    <span class="nav-link-text" data-i18n="nav.home">Home</span>
+            <li class="<?php echo ($active_page == 'schedule') ? 'active' : ''; ?>">
+                <a href="/nfl/fan/" title="Schedule" data-filter-tags="schedule">
+                    <i class="fal fa-calendar"></i>
+                    <span class="nav-link-text" data-i18n="nav.schedule">Schedule</span>
+                </a>
+            </li>
+            <li class="<?php echo ($active_page == 'standings') ? 'active' : ''; ?>">
+                <a href="/nfl/fan/standings.php" title="Standings" data-filter-tags="standings">
+                    <i class="fal fa-table"></i>
+                    <span class="nav-link-text" data-i18n="nav.standings">Standings</span>
+                </a>
+            </li>
+            <li class="<?php echo ($active_page == 'player_statistics') ? 'active' : ''; ?>">
+                <a href="/nfl/fan/player_statistics.php" title="Player Statistics" data-filter-tags="player statistics">
+                    <i class="fal fa-chart-bar"></i>
+                    <span class="nav-link-text" data-i18n="nav.player_statistics">Player Statistics</span>
                 </a>
             </li>
         </ul>

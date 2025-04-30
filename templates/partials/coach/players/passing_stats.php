@@ -19,6 +19,7 @@
                         <thead>
                             <tr>
                                 <th>Player</th>
+                                <th>Team</th>
                                 <th>Games Played</th>
                                 <th>Pass Yds</th>
                                 <th>Completion Percentage</th>
@@ -28,15 +29,16 @@
                         <tbody>
                             <?php
                             $games = [
-                              ['player' => 'Player 1', 'played' => '16', 'pass_yds' => '4500', 'comp_perc' => '67.8', 'longest' => '85'],
-                              ['player' => 'Player 2', 'played' => '14', 'pass_yds' => '3800', 'comp_perc' => '65.3', 'longest' => '78'],
-                              ['player' => 'Player 3', 'played' => '15', 'pass_yds' => '4100', 'comp_perc' => '69.2', 'longest' => '80'],
-                              ['player' => 'Player 4', 'played' => '13', 'pass_yds' => '3200', 'comp_perc' => '62.5', 'longest' => '70'],
+                              ['player' => 'Player 1', 'team' => 'Team A', 'played' => '16', 'pass_yds' => '4500', 'comp_perc' => '67.8', 'longest' => '85'],
+                              ['player' => 'Player 2', 'team' => 'Team A', 'played' => '14', 'pass_yds' => '3800', 'comp_perc' => '65.3', 'longest' => '78'],
+                              ['player' => 'Player 3', 'team' => 'Team A', 'played' => '15', 'pass_yds' => '4100', 'comp_perc' => '69.2', 'longest' => '80'],
+                              ['player' => 'Player 4', 'team' => 'Team A', 'played' => '13', 'pass_yds' => '3200', 'comp_perc' => '62.5', 'longest' => '70'],
                             ];
 
                             foreach ($games as $game) {
                                 echo '<tr>';
                                 echo '<td>' . htmlspecialchars($game['player']) . '</td>';
+                                echo '<td>' . htmlspecialchars($game['team']) . '</td>';
                                 echo '<td>' . htmlspecialchars($game['played']) . '</td>';
                                 echo '<td>' . htmlspecialchars($game['pass_yds']) . '</td>';
                                 echo '<td>' . htmlspecialchars($game['comp_perc']) . '</td>';

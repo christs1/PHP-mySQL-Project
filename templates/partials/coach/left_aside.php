@@ -67,6 +67,12 @@
                     <span class="nav-link-text" data-i18n="nav.schedule">Schedule</span>
                 </a>
             </li>
+            <li class="<?php echo ($active_page == 'standings') ? 'active' : ''; ?>">
+                <a href="standings.php" title="Standings" data-filter-tags="standings">
+                    <i class="fal fa-table"></i>
+                    <span class="nav-link-text" data-i18n="nav.standings">Standings</span>
+                </a>
+            </li>
             <li class="<?php echo ($active_page == 'account') ? 'active' : ''; ?>">
                 <a href="account.php" title="Account" data-filter-tags="account">
                     <i class="fal fa-user-circle"></i>

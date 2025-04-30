@@ -73,6 +73,12 @@
                     <span class="nav-link-text" data-i18n="nav.standings">Standings</span>
                 </a>
             </li>
+            <li class="<?php echo ($active_page == 'player_statistics') ? 'active' : ''; ?>">
+                <a href="player_statistics.php" title="Player Statistics" data-filter-tags="player_statistics">
+                    <i class="fal fa-table"></i>
+                    <span class="nav-link-text" data-i18n="nav.standings">Player Statistics</span>
+                </a>
+            </li>
             <li class="<?php echo ($active_page == 'account') ? 'active' : ''; ?>">
                 <a href="account.php" title="Account" data-filter-tags="account">
                     <i class="fal fa-user-circle"></i>

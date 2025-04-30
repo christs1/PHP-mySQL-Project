@@ -4,8 +4,8 @@
       <div class="d-flex flex-column align-items-center justify-content-center p-4">
         <img src="../img/profile-pics/default_profile.jpg" class="rounded-circle shadow-2 img-thumbnail" alt="" style="width: 130px; height: 130px;">
         <h5 class="mb-0 fw-700 text-center mt-3">
-          Coach Name
-          <small class="text-muted mb-0">Coach</small>
+          Name Here
+          <small class="text-muted mb-0"><?php echo $position_name; ?></small>
         </h5>
       </div>
     </div>

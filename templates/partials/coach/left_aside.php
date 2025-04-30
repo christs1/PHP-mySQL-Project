@@ -37,14 +37,8 @@
             </a>
         </div>
         <ul id="js-nav-menu" class="nav-menu">
-            <li class="<?php echo ($active_page == 'home') ? 'active' : ''; ?>">
-                <a href="/nfl/coach/" title="Home" data-filter-tags="home">
-                    <i class="fal fa-house"></i>
-                    <span class="nav-link-text" data-i18n="nav.home">Home</span>
-                </a>
-            </li>
             <li class="<?php echo ($active_page == 'roster') ? 'active' : ''; ?>">
-                <a href="roster.php" title="roster" data-filter-tags="roster">
+                <a href="/nfl/coach/" title="roster" data-filter-tags="roster">
                     <i class="fal fa-user"></i>
                     <span class="nav-link-text" data-i18n="nav.roster">Roster</span>
                 </a>

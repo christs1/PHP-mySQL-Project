@@ -31,15 +31,15 @@
                     <ol class="breadcrumb page-breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">NFL Dashboard</a></li>
                         <li class="breadcrumb-item active">Coach</li>
-                        <li class="breadcrumb-item">Players</li>
+                        <li class="breadcrumb-item">Account</li>
                         <li class="position-absolute pos-top pos-right d-none d-sm-block"><span
                                 class="js-get-date"></span></li>
                     </ol>
                     <div class="subheader">
                         <h1 class="subheader-title">
-                            <i class='subheader-icon fal fa-user'></i> Players
+                            <i class='subheader-icon fal fa-user'></i> Account
                             <small>
-                                Manage and view player details
+                                Manage and view your account details
                             </small>
                         </h1>
                     </div>
@@ -47,7 +47,8 @@
                      <div class="row">
                         <div class="col-lg-6 col-xl-3 order-lg-1 order-xl-1">
                             <?php
-                                include '../templates/partials/coach/account/profile_card.php';
+                                $position_name = 'Coach';
+                                include '../templates/partials/all_accounts/account/profile_card.php';
                             ?>
                         </div>
                         <div class="col-lg-12 col-xl-6 order-lg-3 order-xl-2">

@@ -20,8 +20,8 @@
     <div class="page-wrapper">
         <div class="page-inner">
             <?php
-                $active_page = 'roster';
-                include '../templates/partials/coach/left_aside.php';
+                $active_page = 'account';
+                include '../templates/partials/player/left_aside.php';
             ?>
             <div class="page-content-wrapper">
                 <?php
@@ -30,24 +30,33 @@
                 <main id="js-page-content" role="main" class="page-content">
                     <ol class="breadcrumb page-breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0);">NFL Dashboard</a></li>
-                        <li class="breadcrumb-item active">Coach</li>
-                        <li class="breadcrumb-item">Reserves</li>
+                        <li class="breadcrumb-item active">Player</li>
+                        <li class="breadcrumb-item">Account</li>
                         <li class="position-absolute pos-top pos-right d-none d-sm-block"><span
                                 class="js-get-date"></span></li>
                     </ol>
                     <div class="subheader">
                         <h1 class="subheader-title">
-                            <i class='subheader-icon fal fa-user'></i> Roster
+                            <i class='subheader-icon fal fa-user'></i> Account
                             <small>
-                                Manage players that will play in the upcoming game.
+                                Manage and view your account details
                             </small>
                         </h1>
                     </div>
                     <!-- Your main content goes below here: -->
-                    <?php
-                        $player_status = 'roster';
-                        include '../templates/partials/coach/players/players.php';
-                    ?>
+                     <div class="row">
+                        <div class="col-lg-6 col-xl-3 order-lg-1 order-xl-1">
+                            <?php
+                                $position_name = 'Player';
+                                include '../templates/partials/all_accounts/account/profile_card.php';
+                            ?>
+                        </div>
+                        <div class="col-lg-12 col-xl-6 order-lg-3 order-xl-2">
+                            <?php
+                                include '../templates/partials/all_accounts/account/update_profile_form.php';
+                            ?>
+                        </div>
+                     </div>
                 </main>
                 <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div>
                 <?php

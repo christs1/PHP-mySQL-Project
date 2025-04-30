@@ -75,7 +75,7 @@
             </li>
             <li class="<?php echo ($active_page == 'player_statistics') ? 'active' : ''; ?>">
                 <a href="player_statistics.php" title="Player Statistics" data-filter-tags="player_statistics">
-                    <i class="fal fa-table"></i>
+                    <i class="fal fa-chart-bar"></i>
                     <span class="nav-link-text" data-i18n="nav.standings">Player Statistics</span>
                 </a>
             </li>

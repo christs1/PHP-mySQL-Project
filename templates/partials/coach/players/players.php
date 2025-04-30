@@ -22,7 +22,15 @@ for ($i = 1; $i <= 10; $i++) {
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#">Send Email</a>
                             <a class="dropdown-item" href="#">Change position</a>
-                            <a class="dropdown-item" href="#">Move to reserves</a>
+                            <?php if ($player_status != 'roster' && $player_status != 'free agents'): ?>
+                                <a class="dropdown-item" href="#">Move to roster</a>
+                            <?php endif; ?>
+                            <?php if ($player_status != 'reserves' && $player_status != 'free agents'): ?>
+                                <a class="dropdown-item" href="#">Move to reserves</a>
+                            <?php endif; ?>
+                            <?php if ($player_status != 'roster' && $player_status != 'reserves'): ?>
+                                <a class="dropdown-item" href="#">Add to team</a>
+                            <?php endif; ?>
                             <a class="dropdown-item" href="#">Drop player</a>
                         </div>
                         <span class="text-truncate text-truncate-xl">Position <?php echo $i; ?></span>

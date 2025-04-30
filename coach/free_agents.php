@@ -45,6 +45,7 @@
                     </div>
                     <!-- Your main content goes below here: -->
                     <?php
+                        $player_status = 'free agents';
                         include '../templates/partials/coach/players/players.php';
                     ?>
                 </main>

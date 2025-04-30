@@ -45,6 +45,7 @@
                     </div>
                     <!-- Your main content goes below here: -->
                     <?php
+                        $player_status = 'roster';
                         include '../templates/partials/coach/players/players.php';
                     ?>
                 </main>

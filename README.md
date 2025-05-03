@@ -1,4 +1,3 @@
-
 <a id="readme-top"></a>
 
 [![Contributors][contributors-shield]][contributors-url] [![Issues][issues-shield]][issues-url] [![PHP][PHP]][php-url]
@@ -22,6 +21,7 @@
 </div>
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 ### Prerequisites
@@ -30,7 +30,6 @@ This project requires [XAMPP](https://www.apachefriends.org/index.html) to run a
 
 1. Download XAMPP from the [official website](https://www.apachefriends.org/index.html).
 2. Install XAMPP and start the Apache and MySQL modules from the XAMPP Control Panel.
-
 
 ### Clone the repository
 
@@ -56,6 +55,7 @@ http://localhost/nfl/
 ```
 
 ## Foler Structure
+
 The project folder structure is organized as follows:
 
 ```
@@ -70,6 +70,7 @@ PHP-mySQL-Project/
 ├── js/                 # JavaScript files
 ├── php/                # PHP scripts for backend logic
 ├── player/             # PHP pages for player accounts
+├── leaguemanager/      # PHP pages for league manager
 ├── smartadmin/         # Smartadmin files
 ├── sql/                # SQL scripts for database setup
 ├── statistician/       # PHP pages for statistician accounts
@@ -85,10 +86,10 @@ PHP-mySQL-Project/
 </a>
 
 <!-- MARKDOWN LINKS & IMAGES -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/christs1/PHP-mySQL-Project.svg?style=for-the-badge
 [contributors-url]: https://github.com/christs1/PHP-mySQL-Project/graphs/contributors
 [issues-shield]: https://img.shields.io/github/issues/christs1/PHP-mySQL-Project.svg?style=for-the-badge
 [issues-url]: https://github.com/christs1/PHP-mySQL-Project/issues
-
 [PHP]: https://img.shields.io/badge/php-000000?style=for-the-badge&logo=php
 [php-url]: https://www.php.net/

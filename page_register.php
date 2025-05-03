@@ -1,3 +1,47 @@
+<?php
+require_once __DIR__ . '/config/db.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get form data
+    $firstName = trim($_POST['fname']);
+    $lastName = trim($_POST['lname']);
+    $username = trim($_POST['username']); // New username field
+    $email = trim($_POST['emailverify']);
+    $password = $_POST['userpassword'];
+    
+    // Hash password
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    
+    try {
+        // Insert new user
+        $sql = "INSERT INTO users (role_id, username, email, password_hash, first_name, last_name, is_active) 
+                VALUES (5, :username, :email, :password_hash, :first_name, :last_name, 1)";
+        
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':username' => $username, // Now using separate username
+            ':email' => $email,
+            ':password_hash' => $passwordHash,
+            ':first_name' => $firstName,
+            ':last_name' => $lastName
+        ]);
+        
+        // Redirect to confirmation page
+        header('Location: page_confirmation.php');
+        exit;
+    } catch (PDOException $e) {
+        $error = "Registration failed. Please try again.";
+        if ($e->getCode() == 23000) {
+            // Check which unique constraint was violated
+            if (strpos($e->getMessage(), 'username') !== false) {
+                $error = "Username already taken.";
+            } else if (strpos($e->getMessage(), 'email') !== false) {
+                $error = "Email already registered.";
+            }
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,52 +128,50 @@
                             </div>
                             <div class="col-xl-6 ml-auto mr-auto">
                                 <div class="card p-4 rounded-plus bg-faded">
-                                    <form id="js-login" novalidate="" action="page_confirmation.php">
+                                    <?php if (isset($error)): ?>
+                                        <div class="alert alert-danger">
+                                            <?php echo htmlspecialchars($error); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <form id="js-login" novalidate="" method="POST">
                                         <div class="form-group row">
                                             <label class="col-xl-12 form-label" for="fname">Your first and last name</label>
                                             <div class="col-6 pr-1">
-                                                <input type="text" id="fname" class="form-control"
+                                                <input type="text" id="fname" name="fname" class="form-control"
                                                     placeholder="First Name" required>
                                                 <div class="invalid-feedback">Please enter your first name.</div>
                                             </div>
                                             <div class="col-6 pl-1">
-                                                <input type="text" id="lname" class="form-control"
+                                                <input type="text" id="lname" name="lname" class="form-control"
                                                     placeholder="Last Name" required>
                                                 <div class="invalid-feedback">Please enter your last name.</div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Account type</label>
-                                            <select class="custom-select form-control" required>
-                                                <option selected value="">Choose an account type</option>
-                                                <option value="statistician">Statistician</option>
-                                                <option value="manager">Manager</option>
-                                                <option value="coach">Coach</option>
-                                                <option value="player">Player</option>
-                                            </select>
-                                            <div class="invalid-feedback">Please select an account type.</div>
+                                            <label class="form-label" for="username">Choose a username</label>
+                                            <input type="text" id="username" name="username" class="form-control"
+                                                placeholder="Username" required>
+                                            <div class="invalid-feedback">Please enter a username.</div>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="emailverify">Email will be needed for
                                                 verification and account recovery</label>
-                                            <input type="email" id="emailverify" class="form-control"
+                                            <input type="email" id="emailverify" name="emailverify" class="form-control"
                                                 placeholder="Email for verification" required>
                                             <div class="invalid-feedback">Please enter a valid email.</div>
-                                            <div class="help-block">Your email will also be your username</div>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="userpassword">Pick a password:</label>
-                                            <input type="password" id="userpassword" class="form-control"
-                                                placeholder="minimm 8 characters" required>
+                                            <input type="password" id="userpassword" name="userpassword" class="form-control"
+                                                placeholder="minimum 8 characters" required>
                                             <div class="invalid-feedback">Sorry, you missed this one.</div>
                                             <div class="help-block">Your password must be 8-20 characters long, contain
-                                                letters and numbers, and must not contain spaces, special characters, or
-                                                emoji.</div>
+                                                letters and numbers.</div>
                                         </div>
                                         <div class="form-group demo">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="terms" required>
-                                                <label class="custom-control-label" for="terms"> I agree to terms &
+                                                <label class="custom-control-label" for="terms">I agree to terms &
                                                     conditions</label>
                                                 <div class="invalid-feedback">You must agree before proceeding</div>
                                             </div>
@@ -137,8 +179,7 @@
                                         <div class="row no-gutters">
                                             <div class="col-md-4 ml-auto text-right">
                                                 <button id="js-login-btn" type="submit"
-                                                    class="btn btn-block btn-danger btn-lg mt-3">Send
-                                                    verification</button>
+                                                    class="btn btn-block btn-danger btn-lg mt-3">Register</button>
                                             </div>
                                         </div>
                                     </form>
@@ -157,19 +198,25 @@
     <script src="js/app.bundle.js"></script>
     <script>
         $("#js-login-btn").click(function (event) {
-
             // Fetch form to apply custom Bootstrap validation
-            var form = $("#js-login")
+            var form = $("#js-login");
+            
+            // Username validation
+            var username = $("#username").val();
+            if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
+                event.preventDefault();
+                $("#username")[0].setCustomValidity("Username must be 3-20 characters and contain only letters, numbers, and underscores.");
+            } else {
+                $("#username")[0].setCustomValidity("");
+            }
 
             if (form[0].checkValidity() === false) {
-                event.preventDefault()
-                event.stopPropagation()
+                event.preventDefault();
+                event.stopPropagation();
             }
 
             form.addClass('was-validated');
-            // Perform ajax submit here...
         });
-
     </script>
 </body>
 

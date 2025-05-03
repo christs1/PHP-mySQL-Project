@@ -1,0 +1,130 @@
+<?php
+session_start();
+require_once __DIR__ . '/../config/db.php';
+$active_page = 'player_statistics';
+
+// Fetch player statistics with player and team info
+$sql = "
+SELECT ps.*, 
+       p.first_name, p.last_name, p.position, t.team_name AS player_team, 
+       opp.team_name AS opponent_team
+FROM player_statistics ps
+JOIN players p ON ps.player_id = p.player_id
+LEFT JOIN teams t ON p.team_id = t.team_id
+LEFT JOIN teams opp ON ps.opponent_team_id = opp.team_id
+ORDER BY player_team ASC, p.last_name ASC, p.first_name ASC, ps.game_date DESC
+";
+$stats = $pdo->query($sql)->fetchAll();
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        NFL Dashboard
+    </title>
+    <meta name="description" content="NFL Dashboard">
+    <?php
+        include '../templates/partials/all_accounts/head_imports.php';
+    ?>
+</head>
+
+<body class="mod-bg-1">
+    <?php
+        include '../templates/partials/load_theme.php';
+    ?>
+    <!-- BEGIN Page Wrapper -->
+    <div class="page-wrapper">
+        <div class="page-inner">
+            <?php
+                include '../templates/partials/leaguemanager/left_aside.php';
+            ?>
+            <div class="page-content-wrapper">
+                <?php
+                    include '../templates/partials/header.php';
+                ?>
+                <main id="js-page-content" role="main" class="page-content">
+                    <ol class="breadcrumb page-breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">NFL Dashboard</a></li>
+                        <li class="breadcrumb-item active">Players</li>
+                        <li class="breadcrumb-item">Player Statistics</li>
+                        <li class="position-absolute pos-top pos-right d-none d-sm-block"><span
+                                class="js-get-date"></span></li>
+                    </ol>
+                    <div class="subheader">
+                        <h1 class="subheader-title">
+                            <i class='subheader-icon fal fa-user'></i> Player Statistics
+                            <small>
+                                View player statistics for the current season.
+                            </small>
+                        </h1>
+                    </div>
+                    <!-- Your main content goes below here: -->
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card mb-g">
+                                <div class="card-header">
+                                    <div class="card-title">Player Game Statistics</div>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-hover table-striped w-100">
+                                        <thead class="bg-primary-600">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Player</th>
+                                                <th>Team</th>
+                                                <th>Position</th>
+                                                <th>Games Played</th>
+                                                <th>Passing Yards</th>
+                                                <th>Rushing Yards</th>
+                                                <th>Receiving Yards</th>
+                                                <th>Touchdowns</th>
+                                                <th>Interceptions</th>
+                                                <th>Tackles</th>
+                                                <th>Sacks</th>
+                                                <th>FG Made</th>
+                                                <th>FG Att</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($stats as $row): ?>
+                                            <tr>
+                                                <td><?= htmlspecialchars($row['game_date']) ?></td>
+                                                <td><?= htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) ?></td>
+                                                <td><?= htmlspecialchars($row['player_team'] ?? '-') ?></td>
+                                                <td><?= htmlspecialchars($row['position']) ?></td>
+                                                <td><?= htmlspecialchars($row['games_played']) ?></td>
+                                                <td><?= htmlspecialchars($row['passing_yards']) ?></td>
+                                                <td><?= htmlspecialchars($row['rushing_yards']) ?></td>
+                                                <td><?= htmlspecialchars($row['receiving_yards']) ?></td>
+                                                <td><?= htmlspecialchars($row['touchdowns']) ?></td>
+                                                <td><?= htmlspecialchars($row['interceptions']) ?></td>
+                                                <td><?= htmlspecialchars($row['tackles']) ?></td>
+                                                <td><?= htmlspecialchars($row['sacks']) ?></td>
+                                                <td><?= htmlspecialchars($row['field_goals_made']) ?></td>
+                                                <td><?= htmlspecialchars($row['field_goals_attempted']) ?></td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div>
+                <?php
+                    include '../templates/partials/footer.php';
+                ?>
+                <?php
+                    include '../templates/partials/js_color_profile.php';
+                ?>
+            </div>
+        </div>
+    </div>
+    <?php
+        include '../templates/partials/all_accounts/js_imports.php';
+    ?>
+</body>
+</html>

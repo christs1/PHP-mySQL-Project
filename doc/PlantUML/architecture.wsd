@@ -1,0 +1,24 @@
+@startuml Architecture
+left to right direction
+!define DATABASE database
+!define BROWSER component
+!define SERVICE component
+
+skinparam packageStyle rectangle
+skinparam arrowColor #333333
+
+package "Client" {
+  BROWSER "Web Browser" as browser
+}
+
+cloud "Web Server (Ubuntu 24.04.1 LTS)" {
+  SERVICE "Apache HTTP Server v2.4.58" as apache
+  SERVICE "PHP v8.2.12" as php
+  DATABASE "MariaDB v10.4.32" as mariadb
+}
+
+' Connections '
+browser <--> apache : "HTTP"
+apache <--> php
+php <--> mariadb
+@enduml

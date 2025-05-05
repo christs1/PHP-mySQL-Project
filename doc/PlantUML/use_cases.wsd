@@ -1,0 +1,41 @@
+@startuml usecases
+' Config '
+left to right direction
+
+' Actors
+package "Account Required" {
+  actor "League Manager" as league_manager
+  actor "Coach" as coach
+  actor "Player" as player
+  actor "Statistician" as statistician
+}
+actor "Fan" as fan
+
+' Use cases '
+package "System" {
+  usecase "Grant roles" as grant_roles
+  usecase "Assign coach/statistician to team" as assign_roles
+  usecase "Update team roster" as update_roster
+  usecase "Create practice schedule" as create_practice_schedule
+  usecase "Update game stats" as update_game_stats
+  usecase "Update player stats" as update_player_stats
+  usecase "Generate statistics report" as generate_stats_report
+  usecase "Check in for practice" as practice_checkin
+  usecase "View statistics report" as view_stats_report
+  usecase "View game schedule" as view_game_schedule
+}
+
+' Relationships '
+league_manager --> grant_roles
+league_manager --> assign_roles
+coach --> update_roster
+coach --> create_practice_schedule
+coach --> view_stats_report
+statistician --> update_game_stats
+statistician --> update_player_stats
+statistician --> generate_stats_report
+player --> practice_checkin
+player --> view_stats_report
+fan --> view_game_schedule
+fan --> view_stats_report
+@enduml

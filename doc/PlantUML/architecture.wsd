@@ -1,4 +1,5 @@
 @startuml Architecture
+left to right direction
 !theme sketchy-outline
 !define DATABASE database
 !define BROWSER agent
@@ -17,7 +18,7 @@ package "XAMPP Web Server" {
   DATABASE "MariaDB v10.4.32" as mariadb
 }
 
-' Pointers '
+' Arrows '
 browser <--> apache : "HTTP"
 apache <--> php
 php <--> mariadb

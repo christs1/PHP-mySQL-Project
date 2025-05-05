@@ -1,41 +1,102 @@
 @startuml usecases
 ' Config '
 left to right direction
+skinparam ArrowThickness 1.3
+!define league_manager_color #ff595e
+!define statistician_color #f48c06
+!define coach_color #8ac926
+!define player_color #1982c4
+!define fan_color #6a4c93
 
 ' Actors
 package "Account Required" {
-  actor "League Manager" as league_manager
-  actor "Coach" as coach
-  actor "Player" as player
-  actor "Statistician" as statistician
+  package "Management" {
+    actor "League Manager" as league_manager league_manager_color
+    actor "Statistician" as statistician statistician_color
+    actor "Coach" as coach coach_color
+  }
+  actor "Player" as player player_color
 }
-actor "Fan" as fan
+
+actor "Fan" as fan fan_color
 
 ' Use cases '
 package "System" {
-  usecase "Grant roles" as grant_roles
-  usecase "Assign coach/statistician to team" as assign_roles
-  usecase "Update team roster" as update_roster
-  usecase "Create practice schedule" as create_practice_schedule
-  usecase "Update game stats" as update_game_stats
-  usecase "Update player stats" as update_player_stats
-  usecase "Generate statistics report" as generate_stats_report
-  usecase "Check in for practice" as practice_checkin
-  usecase "View statistics report" as view_stats_report
-  usecase "View game schedule" as view_game_schedule
+  package "League Management" {
+    usecase "Approve roles" as approve_roles
+    usecase "Assign coach to team" as assign_coach
+    usecase "Create match" as create_match
+  }
+  package "Team Management" {
+    usecase "Add free agent to reserves" as add_free_agent
+    usecase "Move player from reserves to roster" as reserve_to_active
+    usecase "Move player from roster to reserves" as active_to_reserve
+    usecase "Drop player from roster" as drop_player
+    usecase "Change player position" as change_player_position
+    usecase "Email all players in roster" as email_players
+    usecase "Email individual player" as email_player
+  }
+  package "Statistics Management" {
+    usecase "Update game stats" as update_game_stats
+    usecase "Update player stats" as update_player_stats
+  }
+  package "Profile Management" {
+    usecase "Update profile" as update_profile
+  }
+  package "Everyone" {
+    usecase "View statistics" as view_stats_report
+    usecase "View game schedule" as view_game_schedule
+    usecase "View league standings" as view_standings
+  }
 }
 
 ' Relationships '
-league_manager --> grant_roles
-league_manager --> assign_roles
-coach --> update_roster
-coach --> create_practice_schedule
-coach --> view_stats_report
-statistician --> update_game_stats
-statistician --> update_player_stats
-statistician --> generate_stats_report
-player --> practice_checkin
-player --> view_stats_report
-fan --> view_game_schedule
-fan --> view_stats_report
+league_manager --[league_manager_color]> approve_roles
+league_manager --[league_manager_color]> assign_coach
+league_manager --[league_manager_color]> view_stats_report
+league_manager --[league_manager_color]> view_game_schedule
+league_manager --[league_manager_color]> view_standings
+league_manager --[league_manager_color]> update_profile
+league_manager --[league_manager_color]> create_match
+coach -[coach_color]> add_free_agent
+coach -[coach_color]> reserve_to_active
+coach -[coach_color]> active_to_reserve
+coach -[coach_color]> drop_player
+coach -[coach_color]> change_player_position
+coach -[coach_color]> view_stats_report
+coach -[coach_color]> view_game_schedule
+coach -[coach_color]> view_standings
+coach -[coach_color]> email_players
+coach -[coach_color]> email_player
+coach -[coach_color]> update_profile
+player --[player_color]> view_stats_report
+player --[player_color]> view_game_schedule
+player --[player_color]> view_standings
+player --[player_color]> update_profile
+statistician --[statistician_color]> update_game_stats
+statistician --[statistician_color]> update_player_stats
+statistician --[statistician_color]> view_stats_report
+statistician --[statistician_color]> view_game_schedule
+statistician --[statistician_color]> view_standings
+statistician --[statistician_color]> update_profile
+view_stats_report <-[fan_color]- fan
+view_game_schedule <-[fan_color]- fan
+view_standings <-[fan_color]- fan
+
+' Notes '
+note right of approve_roles
+  Users select account role
+  when they create an account
+  but it must be approved by the
+  league manager before they can
+  use the system.
+end note
+note right of reserve_to_active
+  Roster is for players
+  that will play next game.
+end note
+note right of add_free_agent
+  Free agents are players
+  that are not on a team.
+end note
 @enduml

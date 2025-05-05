@@ -1,8 +1,7 @@
 @startuml Architecture
 left to right direction
-!theme sketchy-outline
 !define DATABASE database
-!define BROWSER agent
+!define BROWSER component
 !define SERVICE component
 
 skinparam packageStyle rectangle
@@ -12,13 +11,13 @@ package "Client" {
   BROWSER "Web Browser" as browser
 }
 
-package "XAMPP Web Server" {
+cloud "Web Server (Ubuntu 24.04.1 LTS)" {
   SERVICE "Apache HTTP Server v2.4.58" as apache
   SERVICE "PHP v8.2.12" as php
   DATABASE "MariaDB v10.4.32" as mariadb
 }
 
-' Arrows '
+' Connections '
 browser <--> apache : "HTTP"
 apache <--> php
 php <--> mariadb

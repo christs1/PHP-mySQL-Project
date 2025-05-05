@@ -28,7 +28,7 @@
                         League Manager
                     </span>
                 </a>
-                <span class="d-inline-block text-truncate text-truncate-sm">Administrator</span>
+                <span class="d-inline-block text-truncate text-truncate-sm">League Manager</span>
             </div>
             <img src="../img/card-backgrounds/field.png" class="cover" alt="cover">
             <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle"
@@ -49,7 +49,7 @@
                     <span class="nav-link-text" data-i18n="nav.games">Games</span>
                 </a>
             </li>
-            <li class="<?php echo ($active_page == 'players') ? 'active' : ''; ?>">
+            <li class="<?php echo ($active_page == 'players' || $active_page == 'player_statistics') ? 'active open' : ''; ?>">
                 <a href="players.php" title="Players" data-filter-tags="players roster">
                     <i class="fal fa-user"></i>
                     <span class="nav-link-text" data-i18n="nav.players">Players</span>
@@ -66,6 +66,12 @@
                 <a href="teams.php" title="Teams" data-filter-tags="teams">
                     <i class="fal fa-users"></i>
                     <span class="nav-link-text" data-i18n="nav.teams">Teams</span>
+                </a>
+            </li>
+            <li class="<?php echo ($active_page == 'users') ? 'active' : ''; ?>">
+                <a href="users.php" title="Users" data-filter-tags="users management">
+                    <i class="fal fa-user-cog"></i>
+                    <span class="nav-link-text" data-i18n="nav.users">User Management</span>
                 </a>
             </li>
             <li class="<?php echo ($active_page == 'account') ? 'active' : ''; ?>">

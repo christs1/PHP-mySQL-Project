@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/../config/db.php';
 
 // Only allow league manager to add/edit/delete
-$is_league_manager = (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'leaguemanager');
+$is_league_manager = ((isset($_SESSION['role_id']) && ($_SESSION['role_id'] == 1)));
 
 // Handle add game
 if ($is_league_manager && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_game'])) {

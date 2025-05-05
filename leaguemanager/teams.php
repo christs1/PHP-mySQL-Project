@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/../config/db.php';
 
 // Only allow league manager to add/edit/delete
-$is_league_manager = (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'leaguemanager');
+$is_league_manager = ((isset($_SESSION['role_id']) && ($_SESSION['role_id'] == 1)));
 
 // Handle add team
 if ($is_league_manager && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_team'])) {
@@ -107,7 +107,13 @@ $teams = $pdo->query($sql)->fetchAll();
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered table-hover table-striped w-100">
+                                    <div class="input-group input-group-lg mb-4 shadow-1 rounded" style="max-width: 500px;">
+                                        <input type="text" class="form-control shadow-inset-2" id="team-search-input" placeholder="Search teams by name, city, or division...">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button" id="team-search-btn"><i class="fal fa-search mr-lg-2"></i><span class="d-none d-md-inline">Search</span></button>
+                                        </div>
+                                    </div>
+                                    <table class="table table-bordered table-hover table-striped w-100" id="teams-table">
                                         <thead class="bg-primary-600">
                                             <tr>
                                                 <th>Team ID</th>
@@ -262,6 +268,25 @@ $teams = $pdo->query($sql)->fetchAll();
         $('#edit_conference').val(team.conference);
         $('#edit_head_coach_id').val(team.head_coach_id);
     });
+
+    // Simple client-side filter for teams table
+    // Assumes your teams table has id="teams-table"
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('team-search-input');
+        const table = document.getElementById('teams-table');
+        if (!input || !table) return;
+        input.addEventListener('keyup', function() {
+            const filter = input.value.toLowerCase();
+            const rows = table.getElementsByTagName('tr');
+            for (let i = 1; i < rows.length; i++) { // skip header row
+                let rowText = rows[i].textContent.toLowerCase();
+                rows[i].style.display = rowText.includes(filter) ? '' : 'none';
+            }
+        });
+        document.getElementById('team-search-btn').addEventListener('click', function() {
+            input.dispatchEvent(new Event('keyup'));
+        });
+    });
     </script>
 </body>
-</html> 
+</html>

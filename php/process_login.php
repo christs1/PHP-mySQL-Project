@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       header('Location: /nfl/player/');
       break;
     case 4: // Statistician
-      header('Location: /nfl/statistician/');
+      header('Location: /RBAC/PHP-mySQL-Project/statistician/');
       break;
     case 5: // Fan
       header('Location: /nfl/fan/');

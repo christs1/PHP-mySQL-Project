@@ -3,7 +3,8 @@ session_start();
 require_once __DIR__ . '/../config/db.php';
 
 // Only allow league manager to add/edit/delete
-$is_league_manager = (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'leaguemanager');
+$is_league_manager = ((isset($_SESSION['role_id']) && ($_SESSION['role_id'] == 1)));
+;
 
 // Handle player update
 if ($is_league_manager && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_player_id'])) {
@@ -39,7 +40,9 @@ if ($is_league_manager && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST[
 // Handle player delete
 if ($is_league_manager && isset($_POST['delete_player_id'])) {
     $player_id = $_POST['delete_player_id'];
-    // Only delete from players table
+    // First delete all player statistics for this player to avoid foreign key constraint error
+    $pdo->prepare("DELETE FROM player_statistics WHERE player_id = ?")->execute([$player_id]);
+    // Only then delete from players table
     $pdo->prepare("DELETE FROM players WHERE player_id = ?")->execute([$player_id]);
     header('Location: players.php');
     exit;
@@ -131,7 +134,15 @@ $players = $stmt->fetchAll();
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered table-hover table-striped w-100">
+                                    <div class="mb-3">
+                                        <div class="input-group input-group-lg shadow-1 rounded">
+                                            <input type="text" class="form-control shadow-inset-2" id="players-table-filter" placeholder="Search players...">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button"><i class="fal fa-search mr-lg-2"></i><span class="hidden-md-down">Search</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-bordered table-hover table-striped w-100" id="players-table">
                                         <thead class="bg-primary-600">
                                             <tr>
                                                 <th>Player ID</th>
@@ -345,6 +356,13 @@ $players = $stmt->fetchAll();
         $('#edit_date_of_birth').val(player.date_of_birth);
         $('#edit_status').val(player.status);
     });
+    // Table filter for players
+    $('#players-table-filter').on('keyup', function() {
+        var value = $(this).val().toLowerCase();
+        $('#players-table tbody tr').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
     </script>
 </body>
-</html> 
+</html>

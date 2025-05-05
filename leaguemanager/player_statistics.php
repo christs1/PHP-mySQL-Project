@@ -3,6 +3,38 @@ session_start();
 require_once __DIR__ . '/../config/db.php';
 $active_page = 'player_statistics';
 
+// Handle statistics update
+if (isset($_POST['edit_stat_id'])) {
+    $stat_id = $_POST['edit_stat_id'];
+    $games_played = $_POST['edit_games_played'];
+    $passing_yards = $_POST['edit_passing_yards'];
+    $rushing_yards = $_POST['edit_rushing_yards'];
+    $receiving_yards = $_POST['edit_receiving_yards'];
+    $touchdowns = $_POST['edit_touchdowns'];
+    $interceptions = $_POST['edit_interceptions'];
+    $tackles = $_POST['edit_tackles'];
+    $sacks = $_POST['edit_sacks'];
+    $fg_made = $_POST['edit_field_goals_made'];
+    $fg_att = $_POST['edit_field_goals_attempted'];
+    $sql = "UPDATE player_statistics SET games_played = :games_played, passing_yards = :passing_yards, rushing_yards = :rushing_yards, receiving_yards = :receiving_yards, touchdowns = :touchdowns, interceptions = :interceptions, tackles = :tackles, sacks = :sacks, field_goals_made = :fg_made, field_goals_attempted = :fg_att WHERE stat_id = :stat_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':games_played' => $games_played,
+        ':passing_yards' => $passing_yards,
+        ':rushing_yards' => $rushing_yards,
+        ':receiving_yards' => $receiving_yards,
+        ':touchdowns' => $touchdowns,
+        ':interceptions' => $interceptions,
+        ':tackles' => $tackles,
+        ':sacks' => $sacks,
+        ':fg_made' => $fg_made,
+        ':fg_att' => $fg_att,
+        ':stat_id' => $stat_id
+    ]);
+    header('Location: player_statistics.php');
+    exit;
+}
+
 // Fetch player statistics with player and team info
 $sql = "
 SELECT ps.*, 
@@ -68,7 +100,7 @@ $stats = $pdo->query($sql)->fetchAll();
                                     <div class="card-title">Player Game Statistics</div>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered table-hover table-striped w-100">
+                                    <table class="table table-bordered table-hover table-striped w-100" id="stats-table">
                                         <thead class="bg-primary-600">
                                             <tr>
                                                 <th>Date</th>
@@ -85,6 +117,7 @@ $stats = $pdo->query($sql)->fetchAll();
                                                 <th>Sacks</th>
                                                 <th>FG Made</th>
                                                 <th>FG Att</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -104,12 +137,77 @@ $stats = $pdo->query($sql)->fetchAll();
                                                 <td><?= htmlspecialchars($row['sacks']) ?></td>
                                                 <td><?= htmlspecialchars($row['field_goals_made']) ?></td>
                                                 <td><?= htmlspecialchars($row['field_goals_attempted']) ?></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info edit-stat-btn" data-stat='<?= json_encode($row) ?>' data-toggle="modal" data-target="#edit-stat-modal">
+                                                        <i class="fal fa-edit"></i>
+                                                    </button>
+                                                </td>
                                             </tr>
                                             <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <!-- Edit Stat Modal -->
+                    <div class="modal fade" id="edit-stat-modal" tabindex="-1" role="dialog" aria-labelledby="editStatModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <form method="post" class="modal-content">
+                                <input type="hidden" name="edit_stat_id" id="edit_stat_id">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editStatModalLabel">Edit Player Statistics</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="edit_games_played">Games Played</label>
+                                        <input type="number" class="form-control" name="edit_games_played" id="edit_games_played" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_passing_yards">Passing Yards</label>
+                                        <input type="number" class="form-control" name="edit_passing_yards" id="edit_passing_yards">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_rushing_yards">Rushing Yards</label>
+                                        <input type="number" class="form-control" name="edit_rushing_yards" id="edit_rushing_yards">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_receiving_yards">Receiving Yards</label>
+                                        <input type="number" class="form-control" name="edit_receiving_yards" id="edit_receiving_yards">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_touchdowns">Touchdowns</label>
+                                        <input type="number" class="form-control" name="edit_touchdowns" id="edit_touchdowns">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_interceptions">Interceptions</label>
+                                        <input type="number" class="form-control" name="edit_interceptions" id="edit_interceptions">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_tackles">Tackles</label>
+                                        <input type="number" class="form-control" name="edit_tackles" id="edit_tackles">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_sacks">Sacks</label>
+                                        <input type="number" class="form-control" name="edit_sacks" id="edit_sacks">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_field_goals_made">Field Goals Made</label>
+                                        <input type="number" class="form-control" name="edit_field_goals_made" id="edit_field_goals_made">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_field_goals_attempted">Field Goals Attempted</label>
+                                        <input type="number" class="form-control" name="edit_field_goals_attempted" id="edit_field_goals_attempted">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </main>
@@ -126,5 +224,22 @@ $stats = $pdo->query($sql)->fetchAll();
     <?php
         include '../templates/partials/all_accounts/js_imports.php';
     ?>
+    <script>
+    // Fill modal with stat data on edit
+    $(document).on('click', '.edit-stat-btn', function() {
+        var stat = $(this).data('stat');
+        $('#edit_stat_id').val(stat.stat_id || stat.id || stat.player_stat_id || stat.id_stat || stat["stat_id"]);
+        $('#edit_games_played').val(stat.games_played);
+        $('#edit_passing_yards').val(stat.passing_yards);
+        $('#edit_rushing_yards').val(stat.rushing_yards);
+        $('#edit_receiving_yards').val(stat.receiving_yards);
+        $('#edit_touchdowns').val(stat.touchdowns);
+        $('#edit_interceptions').val(stat.interceptions);
+        $('#edit_tackles').val(stat.tackles);
+        $('#edit_sacks').val(stat.sacks);
+        $('#edit_field_goals_made').val(stat.field_goals_made);
+        $('#edit_field_goals_attempted').val(stat.field_goals_attempted);
+    });
+    </script>
 </body>
 </html>

@@ -57,7 +57,7 @@
                                                 </span>
                                             </div>
                                             <div>
-                                                <div class="fw-700 fs-xl">Upcoming Games</div>
+                                                <div class="fw-700 fs-xl"><a href="games.php" class="text-primary">Upcoming Games</a></div>
                                                 <div class="text-muted">View and manage upcoming game schedule</div>
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@
                                                 </span>
                                             </div>
                                             <div>
-                                                <div class="fw-700 fs-xl">Players</div>
+                                                <div class="fw-700 fs-xl"><a href="players.php" class="text-info">Players</a></div>
                                                 <div class="text-muted">Manage players and their information</div>
                                             </div>
                                         </div>
@@ -81,8 +81,20 @@
                                                 </span>
                                             </div>
                                             <div>
-                                                <div class="fw-700 fs-xl">Teams</div>
+                                                <div class="fw-700 fs-xl"><a href="teams.php" class="text-success">Teams</a></div>
                                                 <div class="text-muted">View and manage team information</div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-4">
+                                            <div class="mr-3">
+                                                <span class="fa-stack fa-lg">
+                                                    <i class="fal fa-circle fa-stack-2x text-warning"></i>
+                                                    <i class="fa fa-chart-bar fa-stack-1x text-white"></i>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <div class="fw-700 fs-xl"><a href="player_statistics.php" class="text-warning">Player Statistics</a></div>
+                                                <div class="text-muted">View and edit player statistics for the season</div>
                                             </div>
                                         </div>
                                     </div>
@@ -105,4 +117,4 @@
         include '../templates/partials/all_accounts/js_imports.php';
     ?>
 </body>
-</html> 
+</html>

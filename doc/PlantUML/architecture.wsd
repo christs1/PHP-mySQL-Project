@@ -1,0 +1,24 @@
+@startuml Architecture
+!theme sketchy-outline
+!define DATABASE database
+!define BROWSER agent
+!define SERVICE component
+
+skinparam packageStyle rectangle
+skinparam arrowColor #333333
+
+package "Client" {
+  BROWSER "Web Browser" as browser
+}
+
+package "XAMPP Web Server" {
+  SERVICE "Apache HTTP Server v2.4.58" as apache
+  SERVICE "PHP v8.2.12" as php
+  DATABASE "MariaDB v10.4.32" as mariadb
+}
+
+' Pointers '
+browser <--> apache : "HTTP"
+apache <--> php
+php <--> mariadb
+@enduml

@@ -2,12 +2,9 @@
 <header class="page-header" role="banner">
     <!-- we need this logo when user switches to nav-function-top -->
     <div class="page-logo">
-        <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative"
-            data-toggle="modal" data-target="#modal-shortcut">
-            <img src="../img/logo.png" alt="SmartAdmin WebApp" aria-roledescription="logo">
-            <span class="page-logo-text mr-1">SmartAdmin WebApp</span>
-            <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2">SLIM
-                Project</span>
+        <a href="/RBAC/PHP-mySQL-Project/" class="page-logo-link press-scale-down d-flex align-items-center position-relative">
+            <img src="../img/svg/football-white.svg" alt="NFL Dashboard" aria-roledescription="logo">
+            <span class="page-logo-text mr-1">NFL Dashboard</span>
         </a>
     </div>
     <!-- DOC: mobile button appears during mobile width -->

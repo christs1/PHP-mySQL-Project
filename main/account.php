@@ -4,8 +4,14 @@ require_once __DIR__ . '/../config/db.php';
 require_once '../includes/session_check.php';
 
 // Redirect fans to registration page
-if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 5) { // Assuming 5 is the fan role_id
+if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 5) {
     header('Location: /RBAC/PHP-mySQL-Project/page_register.php');
+    exit;
+}
+
+// Skip profile fetching for guest users
+if (isset($_SESSION['is_guest']) && $_SESSION['is_guest']) {
+    header('Location: dashboard.php');
     exit;
 }
 

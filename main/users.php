@@ -30,8 +30,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 // Also update role-specific tables if needed
                 if ($role === 'player') {
-                    $stmt = $pdo->prepare("UPDATE players SET team_id = ? WHERE user_id = ?");
-                    $stmt->execute([$team_id, $user_id]);
+                    // Check if player record exists
+                    $check_stmt = $pdo->prepare("SELECT player_id FROM players WHERE user_id = ?");
+                    $check_stmt->execute([$user_id]);
+                    $player = $check_stmt->fetch();
+
+                    if ($player) {
+                        // Update existing player
+                        $stmt = $pdo->prepare("UPDATE players SET team_id = ? WHERE user_id = ?");
+                        $stmt->execute([$team_id, $user_id]);
+                    } else {
+                        // Get user info for new player record
+                        $user_stmt = $pdo->prepare("SELECT first_name, last_name FROM users WHERE user_id = ?");
+                        $user_stmt->execute([$user_id]);
+                        $user = $user_stmt->fetch();
+
+                        // Create new player record
+                        $stmt = $pdo->prepare("INSERT INTO players (user_id, first_name, last_name, team_id, status) VALUES (?, ?, ?, ?, 'Active')");
+                        $stmt->execute([$user_id, $user['first_name'], $user['last_name'], $team_id]);
+                    }
                 } else if ($role === 'coach') {
                     $stmt = $pdo->prepare("UPDATE teams SET head_coach_id = ? WHERE team_id = ?");
                     $stmt->execute([$user_id, $team_id]);

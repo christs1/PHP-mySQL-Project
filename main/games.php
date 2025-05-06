@@ -37,8 +37,14 @@ if ($can_edit && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_gam
     $game_status = $_POST['edit_game_status'];
     $season_year = $_POST['edit_season_year'];
     $week_number = $_POST['edit_week_number'];
-    $stmt = $pdo->prepare("UPDATE team_schedule SET home_team_id = ?, away_team_id = ?, game_date = CONCAT(?, ' ', ?), venue = ?, game_status = ?, season_year = ?, week_number = ? WHERE game_id = ?");
-    $stmt->execute([$home_team_id, $away_team_id, $game_date, $game_time, $venue, $game_status, $season_year, $week_number, $game_id]);
+    $home_score = $_POST['edit_home_score'];
+    $away_score = $_POST['edit_away_score'];
+    
+    $stmt = $pdo->prepare("UPDATE team_schedule SET home_team_id = ?, away_team_id = ?, game_date = CONCAT(?, ' ', ?), 
+                          venue = ?, game_status = ?, season_year = ?, week_number = ?, home_score = ?, away_score = ? 
+                          WHERE game_id = ?");
+    $stmt->execute([$home_team_id, $away_team_id, $game_date, $game_time, $venue, $game_status, 
+                   $season_year, $week_number, $home_score, $away_score, $game_id]);
     header('Location: games.php');
     exit;
 }
@@ -386,6 +392,14 @@ foreach ($games as $game) {
                         <label for="edit_week_number">Week Number</label>
                         <input type="number" class="form-control" name="edit_week_number" id="edit_week_number" required>
                     </div>
+                    <div class="form-group">
+                        <label for="edit_home_score">Home Score</label>
+                        <input type="number" class="form-control" name="edit_home_score" id="edit_home_score">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_away_score">Away Score</label>
+                        <input type="number" class="form-control" name="edit_away_score" id="edit_away_score">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -411,6 +425,8 @@ foreach ($games as $game) {
         $('#edit_game_status').val(game.game_status);
         $('#edit_season_year').val(game.season_year);
         $('#edit_week_number').val(game.week_number);
+        $('#edit_home_score').val(game.home_score);
+        $('#edit_away_score').val(game.away_score);
     });
     </script>
 </body>

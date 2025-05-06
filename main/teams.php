@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/db.php';
+require_once '../includes/session_check.php';
+
 
 // Only allow league manager to add/edit/delete
 $is_league_manager = ((isset($_SESSION['role_id']) && ($_SESSION['role_id'] == 1)));
@@ -71,7 +73,7 @@ $teams = $pdo->query($sql)->fetchAll();
         <div class="page-inner">
             <?php
                 $active_page = 'teams';
-                include '../templates/partials/leaguemanager/left_aside.php';
+                include '../templates/partials/role_aside.php';
             ?>
             <div class="page-content-wrapper">
                 <?php

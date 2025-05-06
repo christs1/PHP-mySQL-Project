@@ -7,43 +7,61 @@
             <div class="panel-tag">
                 Please fill out the form below to update your profile information. Ensure all fields are accurate and up-to-date to maintain your account details.
             </div>
-            <form>
-                <h3>Personal Information</h3>
-                <div class="form-group">
-                    <label class="form-label" for="profile-picture">Profile Picture</label>
-                    <input type="file" id="profile-picture" name="profile_picture" class="form-control-file">
+            <div class="card mb-g">
+                <div class="card-header">
+                    <div class="card-title">Update Profile</div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="coach-name">Name</label>
-                    <input type="text" id="coach-name" name="coach_name" class="form-control" placeholder="Enter your full name">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="email">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="phone-number">Phone Number</label>
-                    <input type="tel" id="phone-number" name="phone_number" class="form-control" placeholder="Enter your phone number">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="bio">Bio</label>
-                    <textarea id="bio" name="bio" class="form-control" rows="5" placeholder="Write a short bio about yourself"></textarea>
-                </div>
+                <div class="card-body">
+                    <?php if (isset($_SESSION['success_message'])): ?>
+                        <div class="alert alert-success">
+                            <?= htmlspecialchars($_SESSION['success_message']) ?>
+                            <?php unset($_SESSION['success_message']); ?>
+                        </div>
+                    <?php endif; ?>
 
-                <h3>Account Security</h3>
-                <div class="form-group">
-                    <label class="form-label" for="current-password">Current Password</label>
-                    <input type="password" id="current-password" name="current-password" class="form-control" placeholder="Enter your current password">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="new-password">New Password</label>
-                    <input type="password" id="new-password" name="new-password" class="form-control" placeholder="Enter a new password">
-                </div>
+                    <?php if (isset($_SESSION['error_message'])): ?>
+                        <div class="alert alert-danger">
+                            <?= htmlspecialchars($_SESSION['error_message']) ?>
+                            <?php unset($_SESSION['error_message']); ?>
+                        </div>
+                    <?php endif; ?>
 
-                <div class="form-group mb-0">
-                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                    <form method="post" action="">
+                        <div class="form-group">
+                            <label for="first_name">First Name</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" value="<?= htmlspecialchars($user['first_name']) ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" value="<?= htmlspecialchars($user['last_name']) ?>" required>
+                        </div>
+                        <button type="submit" name="update_profile" class="btn btn-primary">Update Profile</button>
+                    </form>
                 </div>
-            </form>
+            </div>
+
+            <div class="card mb-g">
+                <div class="card-header">
+                    <div class="card-title">Change Password</div>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="">
+                        <div class="form-group">
+                            <label for="current_password">Current Password</label>
+                            <input type="password" class="form-control" id="current_password" name="current_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password">New Password</label>
+                            <input type="password" class="form-control" id="new_password" name="new_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                        </div>
+                        <button type="submit" name="reset_password" class="btn btn-warning">Change Password</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>

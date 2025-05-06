@@ -1,3 +1,6 @@
+<?php
+require_once '../includes/session_check.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +24,7 @@
         <div class="page-inner">
             <?php
                 $active_page = 'dashboard';
-                include '../templates/partials/leaguemanager/left_aside.php';
+                include '../templates/partials/role_aside.php';
             ?>
             <div class="page-content-wrapper">
                 <?php

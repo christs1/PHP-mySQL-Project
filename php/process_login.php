@@ -4,6 +4,10 @@
 session_start();
 require_once __DIR__ . '/../config/db.php';
 
+if (!isset($pdo)) {
+    die('Database connection not available.');
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Retrieve data from POST request
   $username = isset($_POST['username']) ? trim($_POST['username']) : '';
@@ -16,6 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // Fetch user and role from DB
   $stmt = $pdo->prepare('SELECT u.user_id, u.username, u.password_hash, u.role_id, r.role_name FROM users u JOIN roles r ON u.role_id = r.role_id WHERE u.username = ? LIMIT 1');
+  if (!$stmt) {
+    die('Database error: Failed to prepare statement');
+  }
   $stmt->execute([$username]);
   $user = $stmt->fetch();
 
@@ -29,26 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $_SESSION['role_id'] = $user['role_id'];
   $_SESSION['role_name'] = $user['role_name'];
 
-  // Redirect based on role_id
-  switch ((int)$user['role_id']) {
-    case 1: // League Manager
-      header('Location: /RBAC/PHP-mySQL-Project/leaguemanager/');
-      break;
-    case 2: // Coach
-      header('Location: /nfl/coach/');
-      break;
-    case 3: // Player
-      header('Location: /nfl/player/');
-      break;
-    case 4: // Statistician
-      header('Location: /RBAC/PHP-mySQL-Project/statistician/');
-      break;
-    case 5: // Fan
-      header('Location: /nfl/fan/');
-      break;
-    default:
-      die('Invalid account type.');
-  }
+  // Redirect all users to main dashboard
+  header('Location: /RBAC/PHP-mySQL-Project/main/');
   exit;
 } else {
   die('Invalid request method.');

@@ -1,58 +1,107 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/db.php';
+require_once '../includes/session_check.php';
 
-// Only allow league manager to add/edit/delete
-$is_league_manager = ((isset($_SESSION['role_id']) && ($_SESSION['role_id'] == 1)));
-;
+// Initialize permission flags
+$is_league_manager = (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 1);
+$is_coach = (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 2);
+$is_statistician = (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3);
+$is_player = (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 4);
 
-// Handle player update
-if ($is_league_manager && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_player_id'])) {
+// For coaches, get their team_id from users table
+$coach_team_id = null;
+if ($is_coach && isset($_SESSION['user_id'])) {
+    $coach_query = "SELECT team_id FROM users WHERE user_id = ? AND role_id = 2";
+    $stmt = $pdo->prepare($coach_query);
+    $stmt->execute([$_SESSION['user_id']]);
+    $coach = $stmt->fetch();
+    $coach_team_id = $coach ? $coach['team_id'] : null;
+}
+
+// For players, get their player_id
+$user_player_id = null;
+if ($is_player && isset($_SESSION['user_id'])) {
+    $player_query = "SELECT player_id FROM players WHERE user_id = ?";
+    $stmt = $pdo->prepare($player_query);
+    $stmt->execute([$_SESSION['user_id']]);
+    $player = $stmt->fetch();
+    $user_player_id = $player ? $player['player_id'] : null;
+}
+
+// Handle player update with permission checks
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_player_id'])) {
+    $can_edit = false;
     $player_id = $_POST['edit_player_id'];
-    $first_name = $_POST['edit_first_name'];
-    $last_name = $_POST['edit_last_name'];
-    $team_id = !empty($_POST['edit_team_id']) ? $_POST['edit_team_id'] : null;
-    $jersey_number = !empty($_POST['edit_jersey_number']) ? $_POST['edit_jersey_number'] : null;
-    $position = $_POST['edit_position'];
-    $height = $_POST['edit_height'];
-    $weight = $_POST['edit_weight'];
-    $date_of_birth = $_POST['edit_date_of_birth'];
-    $status = $_POST['edit_status'];
+    
+    if ($is_league_manager) {
+        $can_edit = true;
+    } elseif ($is_coach) {
+        // Check if player belongs to coach's team
+        $check_query = "SELECT 1 FROM players WHERE player_id = ? AND team_id = ?";
+        $stmt = $pdo->prepare($check_query);
+        $stmt->execute([$player_id, $coach_team_id]);
+        $can_edit = $stmt->fetchColumn() ? true : false;
+    } elseif ($is_player) {
+        $can_edit = ($player_id == $user_player_id);
+    }
 
-    $sql = "UPDATE players SET first_name = :first_name, last_name = :last_name, team_id = :team_id, jersey_number = :jersey_number, position = :position, height = :height, weight = :weight, date_of_birth = :date_of_birth, status = :status WHERE player_id = :player_id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        ':first_name' => $first_name,
-        ':last_name' => $last_name,
-        ':team_id' => $team_id,
-        ':jersey_number' => $jersey_number,
-        ':position' => $position,
-        ':height' => $height,
-        ':weight' => $weight,
-        ':date_of_birth' => $date_of_birth,
-        ':status' => $status,
-        ':player_id' => $player_id
-    ]);
+    if ($can_edit) {
+        $first_name = $_POST['edit_first_name'];
+        $last_name = $_POST['edit_last_name'];
+        $team_id = !empty($_POST['edit_team_id']) ? $_POST['edit_team_id'] : null;
+        $jersey_number = !empty($_POST['edit_jersey_number']) ? $_POST['edit_jersey_number'] : null;
+        $position = $_POST['edit_position'];
+        $height = $_POST['edit_height'];
+        $weight = $_POST['edit_weight'];
+        $date_of_birth = $_POST['edit_date_of_birth'];
+        $status = $_POST['edit_status'];
+
+        // For players, only allow updating certain fields
+        if ($is_player) {
+            $sql = "UPDATE players SET height = :height, weight = :weight WHERE player_id = :player_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':height' => $height,
+                ':weight' => $weight,
+                ':player_id' => $player_id
+            ]);
+        } else {
+            $sql = "UPDATE players SET first_name = :first_name, last_name = :last_name, team_id = :team_id, 
+                    jersey_number = :jersey_number, position = :position, height = :height, weight = :weight, 
+                    date_of_birth = :date_of_birth, status = :status WHERE player_id = :player_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':first_name' => $first_name,
+                ':last_name' => $last_name,
+                ':team_id' => $team_id,
+                ':jersey_number' => $jersey_number,
+                ':position' => $position,
+                ':height' => $height,
+                ':weight' => $weight,
+                ':date_of_birth' => $date_of_birth,
+                ':status' => $status,
+                ':player_id' => $player_id
+            ]);
+        }
+    }
     header('Location: players.php');
     exit;
 }
 
-// Handle player delete
-if ($is_league_manager && isset($_POST['delete_player_id'])) {
-    $player_id = $_POST['delete_player_id'];
-    // First delete all player statistics for this player to avoid foreign key constraint error
-    $pdo->prepare("DELETE FROM player_statistics WHERE player_id = ?")->execute([$player_id]);
-    // Only then delete from players table
-    $pdo->prepare("DELETE FROM players WHERE player_id = ?")->execute([$player_id]);
-    header('Location: players.php');
-    exit;
-}
-
-// Handle add player
-if ($is_league_manager && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_player'])) {
+// Handle add player (league manager and coaches for their team)
+if (($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_player'])) && 
+    ($is_league_manager || ($is_coach && isset($_POST['add_team_id']) && $_POST['add_team_id'] == $coach_team_id))) {
+    
     $first_name = $_POST['add_first_name'];
     $last_name = $_POST['add_last_name'];
     $team_id = !empty($_POST['add_team_id']) ? $_POST['add_team_id'] : null;
+    
+    // For coaches, force their team_id
+    if ($is_coach) {
+        $team_id = $coach_team_id;
+    }
+    
     $jersey_number = !empty($_POST['add_jersey_number']) ? $_POST['add_jersey_number'] : null;
     $position = $_POST['add_position'];
     $height = $_POST['add_height'];
@@ -63,6 +112,37 @@ if ($is_league_manager && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST[
     // Insert into players only, user_id is NULL
     $playerStmt = $pdo->prepare("INSERT INTO players (user_id, first_name, last_name, team_id, jersey_number, position, height, weight, date_of_birth, status) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $playerStmt->execute([$first_name, $last_name, $team_id, $jersey_number, $position, $height, $weight, $date_of_birth, $status]);
+    header('Location: players.php');
+    exit;
+}
+
+// Handle player delete (league manager and coaches for their team)
+if (isset($_POST['delete_player_id'])) {
+    $player_id = $_POST['delete_player_id'];
+    $can_delete = false;
+
+    if ($is_league_manager) {
+        $can_delete = true;
+    } elseif ($is_coach && $coach_team_id) {
+        // Check if player belongs to coach's team
+        $check_query = "SELECT team_id FROM players WHERE player_id = ?";
+        $stmt = $pdo->prepare($check_query);
+        $stmt->execute([$player_id]);
+        $player = $stmt->fetch();
+        
+        if ($player && $player['team_id'] == $coach_team_id) {
+            $can_delete = true;
+        }
+    }
+
+    if ($can_delete) {
+        // First delete from player_statistics to maintain referential integrity
+        $pdo->prepare("DELETE FROM player_statistics WHERE player_id = ?")->execute([$player_id]);
+        $pdo->prepare("DELETE FROM players WHERE player_id = ?")->execute([$player_id]);
+        $_SESSION['success_message'] = "Player deleted successfully.";
+    } else {
+        $_SESSION['error_message'] = "You do not have permission to delete this player.";
+    }
     header('Location: players.php');
     exit;
 }
@@ -98,7 +178,7 @@ $players = $stmt->fetchAll();
         <div class="page-inner">
             <?php
                 $active_page = 'players';
-                include '../templates/partials/leaguemanager/left_aside.php';
+                include '../templates/partials/role_aside.php';
             ?>
             <div class="page-content-wrapper">
                 <?php
@@ -126,7 +206,7 @@ $players = $stmt->fetchAll();
                                 <div class="card-header">
                                     <div class="card-title">Player Management</div>
                                     <div class="card-tools">
-                                        <?php if ($is_league_manager): ?>
+                                        <?php if ($is_league_manager || $is_coach): ?>
                                         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add-player-modal">
                                             <i class="fal fa-plus"></i> Add Player
                                         </button>
@@ -170,16 +250,34 @@ $players = $stmt->fetchAll();
                                                 <td><?= htmlspecialchars($player['date_of_birth'] ?? '-') ?></td>
                                                 <td><?= htmlspecialchars($player['status']) ?></td>
                                                 <td>
-                                                    <?php if ($is_league_manager): ?>
-                                                    <button class="btn btn-sm btn-info edit-player-btn" 
-                                                        data-player='<?= json_encode($player) ?>' 
-                                                        data-toggle="modal" data-target="#edit-player-modal">
-                                                        <i class="fal fa-edit"></i>
-                                                    </button>
-                                                    <form method="post" action="" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this player?');">
-                                                        <input type="hidden" name="delete_player_id" value="<?= $player['player_id'] ?>">
-                                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fal fa-trash-alt"></i></button>
-                                                    </form>
+                                                    <?php 
+                                                    $can_edit = false;
+                                                    $can_delete = false;
+                                                    
+                                                    if ($is_league_manager) {
+                                                        $can_edit = true;
+                                                        $can_delete = true;
+                                                    } elseif ($is_coach && $coach_team_id == $player['team_id']) {
+                                                        $can_edit = true;
+                                                        $can_delete = true; // Allow coaches to delete players on their team
+                                                    } elseif ($is_player && $user_player_id == $player['player_id']) {
+                                                        $can_edit = true;
+                                                    }
+
+                                                    if ($can_edit): ?>
+                                                        <button class="btn btn-sm btn-info edit-player-btn" 
+                                                            data-player='<?= json_encode($player) ?>'
+                                                            data-user-role="<?= $_SESSION['role_id'] ?>"
+                                                            data-toggle="modal" data-target="#edit-player-modal">
+                                                            <i class="fal fa-edit"></i>
+                                                        </button>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($can_delete): ?>
+                                                        <form method="post" action="" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this player?');">
+                                                            <input type="hidden" name="delete_player_id" value="<?= $player['player_id'] ?>">
+                                                            <button type="submit" class="btn btn-sm btn-danger"><i class="fal fa-trash-alt"></i></button>
+                                                        </form>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>
@@ -192,7 +290,7 @@ $players = $stmt->fetchAll();
                     </div>
 
                     <!-- Add Player Modal -->
-                    <?php if ($is_league_manager): ?>
+                    <?php if ($is_league_manager || $is_coach): ?>
                     <div class="modal fade" id="add-player-modal" tabindex="-1" role="dialog" aria-labelledby="addPlayerModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <form method="post" class="modal-content">
@@ -214,10 +312,10 @@ $players = $stmt->fetchAll();
                                     </div>
                                     <div class="form-group">
                                         <label for="add_team_id">Team</label>
-                                        <select class="form-control" name="add_team_id" id="add_team_id">
+                                        <select class="form-control" name="add_team_id" id="add_team_id" <?= $is_coach ? 'disabled' : '' ?>>
                                             <option value="">-- None --</option>
                                             <?php foreach ($teams as $team): ?>
-                                                <option value="<?= $team['team_id'] ?>"><?= htmlspecialchars($team['team_name']) ?></option>
+                                                <option value="<?= $team['team_id'] ?>" <?= $is_coach && $team['team_id'] == $coach_team_id ? 'selected' : '' ?>><?= htmlspecialchars($team['team_name']) ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -342,9 +440,11 @@ $players = $stmt->fetchAll();
         include '../templates/partials/all_accounts/js_imports.php';
     ?>
     <script>
-    // Fill modal with player data on edit
+    // Fill modal with player data on edit and handle field permissions
     $(document).on('click', '.edit-player-btn', function() {
         var player = $(this).data('player');
+        var userRole = $(this).data('user-role');
+        
         $('#edit_player_id').val(player.player_id);
         $('#edit_first_name').val(player.first_name);
         $('#edit_last_name').val(player.last_name);
@@ -355,7 +455,18 @@ $players = $stmt->fetchAll();
         $('#edit_weight').val(player.weight);
         $('#edit_date_of_birth').val(player.date_of_birth);
         $('#edit_status').val(player.status);
+
+        // Restrict fields based on user role
+        if (userRole == 4) { // Player
+            // Players can only edit height and weight
+            $('#edit_first_name, #edit_last_name, #edit_team_id, #edit_jersey_number, #edit_position, #edit_date_of_birth, #edit_status').prop('disabled', true);
+            $('#edit_height, #edit_weight').prop('disabled', false);
+        } else if (userRole == 2) { // Coach
+            // Coaches can edit all fields
+            $('#edit_first_name, #edit_last_name, #edit_team_id, #edit_jersey_number, #edit_position, #edit_height, #edit_weight, #edit_date_of_birth, #edit_status').prop('disabled', false);
+        }
     });
+
     // Table filter for players
     $('#players-table-filter').on('keyup', function() {
         var value = $(this).val().toLowerCase();

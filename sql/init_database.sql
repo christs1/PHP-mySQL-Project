@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS teams (
     division VARCHAR(50) NOT NULL,
     conference VARCHAR(50) NOT NULL,
     head_coach_id INT,
+    statistician_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (head_coach_id) REFERENCES users(user_id)

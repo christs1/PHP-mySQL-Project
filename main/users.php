@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/db.php';
+require_once '../includes/session_check.php';
+
 
 // Only allow league manager access
 $is_league_manager = ((isset($_SESSION['role_id']) && ($_SESSION['role_id'] == 1)));
@@ -49,15 +51,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Fetch all users with their roles
+// Fetch all users with their roles - Fixed query
 $query = "
-    SELECT u.*, r.role_name, 
-    COALESCE(p.team_id, (SELECT team_id FROM teams WHERE head_coach_id = u.user_id)) as team_id,
+    SELECT DISTINCT u.*, r.role_name, 
+    CASE 
+        WHEN u.role_id = 3 THEN p.team_id  -- Player
+        WHEN u.role_id = 2 THEN (SELECT team_id FROM teams WHERE head_coach_id = u.user_id LIMIT 1)  -- Coach
+        ELSE NULL 
+    END as team_id,
     t.team_name
     FROM users u
     LEFT JOIN roles r ON u.role_id = r.role_id
     LEFT JOIN players p ON u.user_id = p.user_id
-    LEFT JOIN teams t ON p.team_id = t.team_id OR t.head_coach_id = u.user_id
+    LEFT JOIN teams t ON 
+        (u.role_id = 3 AND p.team_id = t.team_id) OR  -- Player's team
+        (u.role_id = 2 AND t.head_coach_id = u.user_id)  -- Coach's team
     ORDER BY u.last_name, u.first_name
 ";
 $result = $pdo->query($query);
@@ -87,7 +95,10 @@ $roles = $roles_result->fetchAll(PDO::FETCH_ASSOC);
     <!-- BEGIN Page Wrapper -->
     <div class="page-wrapper">
         <div class="page-inner">
-            <?php include '../templates/partials/leaguemanager/left_aside.php'; ?>
+            <?php
+                $active_page = 'users';
+                include '../templates/partials/role_aside.php';
+            ?>
             <div class="page-content-wrapper">
                 <?php include '../templates/partials/header.php'; ?>
                 <main id="js-page-content" role="main" class="page-content">

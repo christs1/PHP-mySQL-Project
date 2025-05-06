@@ -1,12 +1,17 @@
 <?php
-session_start();
+require_once '../includes/session_check.php';
+?>
+<?php
 require_once __DIR__ . '/../config/db.php';
 
-// Only allow league manager to add/edit/delete
-$is_league_manager = ((isset($_SESSION['role_id']) && ($_SESSION['role_id'] == 1)));
+// Define role-based permissions
+$is_league_manager = (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 1);
+$is_statistician = (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 4);
+$can_edit = ($is_league_manager || $is_statistician);
+$can_add_delete = $is_league_manager;
 
-// Handle add game
-if ($is_league_manager && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_game'])) {
+// Handle add game (League Manager only)
+if ($can_add_delete && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_game'])) {
     $game_date = $_POST['add_game_date'];
     $game_time = $_POST['add_game_time'];
     $home_team_id = $_POST['add_home_team_id'];
@@ -21,8 +26,8 @@ if ($is_league_manager && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST[
     exit;
 }
 
-// Handle edit game
-if ($is_league_manager && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_game_id'])) {
+// Handle edit game (League Manager and Statistician)
+if ($can_edit && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_game_id'])) {
     $game_id = $_POST['edit_game_id'];
     $game_date = $_POST['edit_game_date'];
     $game_time = $_POST['edit_game_time'];
@@ -38,8 +43,8 @@ if ($is_league_manager && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST[
     exit;
 }
 
-// Handle delete game
-if ($is_league_manager && isset($_POST['delete_game_id'])) {
+// Handle delete game (League Manager only)
+if ($can_add_delete && isset($_POST['delete_game_id'])) {
     $game_id = $_POST['delete_game_id'];
     $stmt = $pdo->prepare("DELETE FROM team_schedule WHERE game_id = ?");
     $stmt->execute([$game_id]);
@@ -90,7 +95,7 @@ foreach ($games as $game) {
         <div class="page-inner">
             <?php
                 $active_page = 'games';
-                include '../templates/partials/leaguemanager/left_aside.php';
+                include '../templates/partials/role_aside.php';
             ?>
             <div class="page-content-wrapper">
                 <?php
@@ -118,7 +123,7 @@ foreach ($games as $game) {
                                 <div class="card-header">
                                     <div class="card-title">Upcoming Games</div>
                                     <div class="card-tools">
-                                        <?php if ($is_league_manager): ?>
+                                        <?php if ($can_add_delete): ?>
                                         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add-game-modal">
                                             <i class="fal fa-plus"></i> Add Game
                                         </button>
@@ -153,8 +158,10 @@ foreach ($games as $game) {
                                                 <td><?= htmlspecialchars($game['venue'] ?? '-') ?></td>
                                                 <td><span class="badge badge-success"><?= htmlspecialchars($game['game_status']) ?></span></td>
                                                 <td>
-                                                    <?php if ($is_league_manager): ?>
+                                                    <?php if ($can_edit): ?>
                                                     <button class="btn btn-sm btn-info edit-game-btn" data-game='<?= json_encode($game) ?>' data-toggle="modal" data-target="#edit-game-modal"><i class="fal fa-edit"></i></button>
+                                                    <?php endif; ?>
+                                                    <?php if ($can_add_delete): ?>
                                                     <form method="post" action="" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this game?');">
                                                         <input type="hidden" name="delete_game_id" value="<?= $game['game_id'] ?>">
                                                         <button type="submit" class="btn btn-sm btn-danger"><i class="fal fa-trash-alt"></i></button>
@@ -218,8 +225,10 @@ foreach ($games as $game) {
                                                 <td><?= $winner ?></td>
                                                 <td><span class="badge badge-success"><?= htmlspecialchars($game['game_status']) ?></span></td>
                                                 <td>
-                                                    <?php if ($is_league_manager): ?>
+                                                    <?php if ($can_edit): ?>
                                                     <button class="btn btn-sm btn-info edit-game-btn" data-game='<?= json_encode($game) ?>' data-toggle="modal" data-target="#edit-game-modal"><i class="fal fa-edit"></i></button>
+                                                    <?php endif; ?>
+                                                    <?php if ($can_add_delete): ?>
                                                     <form method="post" action="" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this game?');">
                                                         <input type="hidden" name="delete_game_id" value="<?= $game['game_id'] ?>">
                                                         <button type="submit" class="btn btn-sm btn-danger"><i class="fal fa-trash-alt"></i></button>
@@ -248,7 +257,7 @@ foreach ($games as $game) {
     <?php
         include '../templates/partials/all_accounts/js_imports.php';
     ?>
-    <?php if ($is_league_manager): ?>
+    <?php if ($can_add_delete): ?>
     <!-- Add Game Modal -->
     <div class="modal fade" id="add-game-modal" tabindex="-1" role="dialog" aria-labelledby="addGameModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -316,6 +325,8 @@ foreach ($games as $game) {
             </form>
         </div>
     </div>
+    <?php endif; ?>
+    <?php if ($can_edit): ?>
     <!-- Edit Game Modal -->
     <div class="modal fade" id="edit-game-modal" tabindex="-1" role="dialog" aria-labelledby="editGameModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -403,4 +414,4 @@ foreach ($games as $game) {
     });
     </script>
 </body>
-</html> 
+</html>

@@ -1,10 +1,15 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/db.php';
-$active_page = 'player_statistics';
+require_once '../includes/session_check.php';
 
-// Handle statistics update
-if (isset($_POST['edit_stat_id'])) {
+// Initialize permission flags
+$is_league_manager = (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 1);
+$is_statistician = (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 4);
+$can_edit_statistics = $is_league_manager || $is_statistician;
+
+// Handle statistics update - only for league manager and statistician
+if (isset($_POST['edit_stat_id']) && $can_edit_statistics) {
     $stat_id = $_POST['edit_stat_id'];
     $games_played = $_POST['edit_games_played'];
     $passing_yards = $_POST['edit_passing_yards'];
@@ -16,6 +21,7 @@ if (isset($_POST['edit_stat_id'])) {
     $sacks = $_POST['edit_sacks'];
     $fg_made = $_POST['edit_field_goals_made'];
     $fg_att = $_POST['edit_field_goals_attempted'];
+    
     $sql = "UPDATE player_statistics SET games_played = :games_played, passing_yards = :passing_yards, rushing_yards = :rushing_yards, receiving_yards = :receiving_yards, touchdowns = :touchdowns, interceptions = :interceptions, tackles = :tackles, sacks = :sacks, field_goals_made = :fg_made, field_goals_attempted = :fg_att WHERE stat_id = :stat_id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
@@ -31,6 +37,12 @@ if (isset($_POST['edit_stat_id'])) {
         ':fg_att' => $fg_att,
         ':stat_id' => $stat_id
     ]);
+    
+    $_SESSION['success_message'] = "Statistics updated successfully.";
+    header('Location: player_statistics.php');
+    exit;
+} elseif (isset($_POST['edit_stat_id']) && !$can_edit_statistics) {
+    $_SESSION['error_message'] = "You do not have permission to edit statistics.";
     header('Location: player_statistics.php');
     exit;
 }
@@ -70,7 +82,8 @@ $stats = $pdo->query($sql)->fetchAll();
     <div class="page-wrapper">
         <div class="page-inner">
             <?php
-                include '../templates/partials/leaguemanager/left_aside.php';
+                $active_page = 'player_statistics';
+                include '../templates/partials/role_aside.php';
             ?>
             <div class="page-content-wrapper">
                 <?php
@@ -138,9 +151,11 @@ $stats = $pdo->query($sql)->fetchAll();
                                                 <td><?= htmlspecialchars($row['field_goals_made']) ?></td>
                                                 <td><?= htmlspecialchars($row['field_goals_attempted']) ?></td>
                                                 <td>
+                                                    <?php if ($can_edit_statistics): ?>
                                                     <button class="btn btn-sm btn-info edit-stat-btn" data-stat='<?= json_encode($row) ?>' data-toggle="modal" data-target="#edit-stat-modal">
                                                         <i class="fal fa-edit"></i>
                                                     </button>
+                                                    <?php endif; ?>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>

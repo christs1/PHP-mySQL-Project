@@ -23,10 +23,12 @@ PAGE "Account Management" as account_management
 UC "Update profile" as update_profile
 PAGE "Players" as players
 UC "View statistics" as view_player_stats
-UC "Add player to team" as add_player_to_team
-UC "Remove player from team" as remove_player_from_team
 PHP "db.php" as db_config
 PHP "session_check.php" as session_check
+PAGE "User Management" as user_management
+UC "Assign user role" as assign_user_role
+UC "Assign player to team" as assign_player
+UC "Remove player from team" as remove_player
 
 ' Page Flow
 login --> process_login : "User submits credentials"
@@ -48,8 +50,10 @@ session_check --> account_management
 account_management --> update_profile : "Account holders"
 session_check --> players
 players --> view_player_stats : "Everyone"
-players --> add_player_to_team : "League manager"
-players --> remove_player_from_team : "League manager"
+session_check --> user_management
+user_management --> assign_user_role : "League manager"
+user_management --> assign_player : "League manager"
+user_management --> remove_player : "League manager"
 
 ' Legend '
 legend top left

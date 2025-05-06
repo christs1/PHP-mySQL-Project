@@ -1,0 +1,49 @@
+@startuml Implementation
+top to bottom direction
+!define PAGE artifact
+!define PHP process
+!define DASHBOARD interface
+!define UC usecase
+
+' Pages and PHP Scripts
+PAGE "Log-in" as login
+PHP "Process Login" as process_login
+DASHBOARD "Dashboard" as dashboard
+PAGE "Registration" as registration
+PAGE "Forgot Password" as forgot_password
+PAGE "Games" as games
+UC "View game schedule" as view_schedule_games
+UC "Update game stats" as manage_game_stats
+UC "Create match" as schedule_new_game
+PAGE "Teams" as teams
+UC "View statistics" as view_team_stats
+UC "Delete team" as delete_team
+UC "Create team" as add_team
+PAGE "Account Management" as account_management
+UC "Update profile" as update_profile
+PAGE "Players" as players
+UC "View statistics" as view_player_stats
+UC "Add player to team" as add_player_to_team
+UC "Remove player from team" as remove_player_from_team
+
+' Page Flow
+login --> process_login : "User submits credentials"
+login --> registration
+login --> forgot_password
+process_login --> dashboard : "Valid credentials"
+process_login --> login : "Invalid credentials"
+dashboard --> games
+games --> view_schedule_games : "Everyone"
+games --> manage_game_stats : "Statistician"
+games --> schedule_new_game : "League manager"
+dashboard --> teams
+teams --> view_team_stats : "Everyone"
+teams --> delete_team : "League manager"
+teams --> add_team: "League manager"
+dashboard --> account_management
+account_management --> update_profile : "Account holders"
+dashboard --> players
+players --> view_player_stats : "Everyone"
+players --> add_player_to_team : "League manager"
+players --> remove_player_from_team : "League manager"
+@enduml

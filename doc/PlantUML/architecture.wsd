@@ -11,14 +11,36 @@ package "Client" {
   BROWSER "Web Browser" as browser
 }
 
-cloud "Web Server (Ubuntu 24.04.1 LTS)" {
-  SERVICE "Apache HTTP Server v2.4.58" as apache
-  SERVICE "PHP v8.2.12" as php
-  DATABASE "MariaDB v10.4.32" as mariadb
+cloud "Web Server" {
+  port "172.235.37.144" as server_ip
+
+  SERVICE "Apache HTTP Server" as apache {
+    port "80" as apache_port
+  }
+  SERVICE "PHP" as php
+  DATABASE "MariaDB" as mariadb {
+    port "3306" as mariadb_port
+  }
 }
 
 ' Connections '
-browser <--> apache : "HTTP"
-apache <--> php
-php <--> mariadb
+browser <--> server_ip : HTTP
+server_ip <--> apache_port
+apache <--> php : Apache Handler API
+php <--> mariadb_port : MySQL Protocol
+
+note top of server_ip
+  Hosting server with Linode
+end note
+
+legend
+|= Component |= Version |
+| Web Browser | Compatible with modern browsers (e.g., Chrome, Firefox, Edge) |
+| Web Server | Ubuntu 24.04.1 LTS |
+| Apache HTTP Server | 2.4.58 |
+| PHP | 8.2.12 |
+| MariaDB | 10.4.32 |
+| Apache Handler API | Apache 2.0 Handler (mod_php) |
+| MySQL Protocol | mysqlnd 8.2.12 |
+endlegend
 @enduml

@@ -3,15 +3,9 @@ session_start();
 require_once __DIR__ . '/../config/db.php';
 require_once '../includes/session_check.php';
 
-// Redirect fans to registration page
-if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 5) {
+// Redirect guest accounts to registration
+if (isset($_SESSION['username']) && $_SESSION['username'] === 'guest') {
     header('Location: /RBAC/PHP-mySQL-Project/page_register.php');
-    exit;
-}
-
-// Skip profile fetching for guest users
-if (isset($_SESSION['is_guest']) && $_SESSION['is_guest']) {
-    header('Location: dashboard.php');
     exit;
 }
 
@@ -44,14 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password'])) {
     $confirm_password = $_POST['confirm_password'];
     
     // Verify current password
-    $stmt = $pdo->prepare("SELECT password FROM users WHERE user_id = ?");
+    $stmt = $pdo->prepare("SELECT password_hash FROM users WHERE user_id = ?");
     $stmt->execute([$user_id]);
     $stored_hash = $stmt->fetchColumn();
     
     if (password_verify($current_password, $stored_hash)) {
         if ($new_password === $confirm_password) {
             $new_hash = password_hash($new_password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE user_id = ?");
+            $stmt = $pdo->prepare("UPDATE users SET password_hash = ? WHERE user_id = ?");
             $stmt->execute([$new_hash, $user_id]);
             $_SESSION['success_message'] = "Password updated successfully.";
         } else {

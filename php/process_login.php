@@ -9,16 +9,16 @@ if (!isset($pdo)) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Retrieve data from POST request
+  // retrieve data from post request
   $username = isset($_POST['username']) ? trim($_POST['username']) : '';
   $password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
-  // Validate inputs
+  // input validation
   if (empty($username) || empty($password)) {
     die('All fields are required.');
   }
 
-  // Fetch user and role from DB
+  // fetch user and role from db
   $stmt = $pdo->prepare('SELECT u.user_id, u.username, u.password_hash, u.role_id, r.role_name FROM users u JOIN roles r ON u.role_id = r.role_id WHERE u.username = ? LIMIT 1');
   if (!$stmt) {
     die('Database error: Failed to prepare statement');
@@ -30,13 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die('Invalid username or password.');
   }
 
-  // Set session variables
+  // session variables
   $_SESSION['user_id'] = $user['user_id'];
   $_SESSION['username'] = $user['username'];
   $_SESSION['role_id'] = $user['role_id'];
   $_SESSION['role_name'] = $user['role_name'];
 
-  // Redirect all users to main dashboard
+  // redirect to main
   header('Location: /RBAC/PHP-mySQL-Project/main/');
   exit;
 } else {

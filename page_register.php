@@ -151,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             <label class="form-label" for="username">Choose a username</label>
                                             <input type="text" id="username" name="username" class="form-control"
                                                 placeholder="Username" required>
-                                            <div class="invalid-feedback">Please enter a username.</div>
+                                            <div class="invalid-feedback">Username must be at least 8 characters long.</div>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="emailverify">Email will be needed for
@@ -197,27 +197,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="js/vendors.bundle.js"></script>
     <script src="js/app.bundle.js"></script>
     <script>
-        $("#js-login-btn").click(function (event) {
-            // Fetch form to apply custom Bootstrap validation
-            var form = $("#js-login");
+        // Client-side validation
+        document.getElementById('js-login').addEventListener('submit', function(e) {
+            let isValid = true;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('userpassword').value;
+            
+            // Reset previous error states
+            document.getElementById('username').classList.remove('is-invalid');
+            document.getElementById('userpassword').classList.remove('is-invalid');
             
             // Username validation
-            var username = $("#username").val();
-            if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
-                event.preventDefault();
-                $("#username")[0].setCustomValidity("Username must be 3-20 characters and contain only letters, numbers, and underscores.");
-            } else {
-                $("#username")[0].setCustomValidity("");
+            if (username.length < 8 || !/^[a-zA-Z0-9_]+$/.test(username)) {
+                document.getElementById('username').classList.add('is-invalid');
+                isValid = false;
             }
-
-            if (form[0].checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
+            
+            // Password validation
+            if (password.length < 8 || 
+                !/[0-9]/.test(password) || 
+                !/[!@#$%^&*()\-_=+{};:,<.>]/.test(password)) {
+                document.getElementById('userpassword').classList.add('is-invalid');
+                isValid = false;
             }
-
-            form.addClass('was-validated');
+            
+            if (!isValid) {
+                e.preventDefault();
+            }
         });
     </script>
+    <?php include 'templates/partials/all_accounts/js_imports.php'; ?>
 </body>
 
 </html>

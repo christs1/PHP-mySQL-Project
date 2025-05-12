@@ -1,8 +1,8 @@
--- Create the NFL management system database
+
 CREATE DATABASE IF NOT EXISTS nfl_management;
 USE nfl_management;
 
--- Create roles table
+
 CREATE TABLE IF NOT EXISTS roles (
     role_id INT PRIMARY KEY AUTO_INCREMENT,
     role_name VARCHAR(50) NOT NULL UNIQUE,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS roles (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create permissions table
+
 CREATE TABLE IF NOT EXISTS permissions (
     permission_id INT PRIMARY KEY AUTO_INCREMENT,
     permission_name VARCHAR(100) NOT NULL UNIQUE,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS permissions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create role_permissions table (many-to-many relationship)
+
 CREATE TABLE IF NOT EXISTS role_permissions (
     role_id INT,
     permission_id INT,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS role_permissions (
     FOREIGN KEY (permission_id) REFERENCES permissions(permission_id) ON DELETE CASCADE
 );
 
--- Create users table
+
 CREATE TABLE IF NOT EXISTS users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     role_id INT,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS users (
     FOREIGN KEY (role_id) REFERENCES roles(role_id)
 );
 
--- Create teams table
+
 CREATE TABLE IF NOT EXISTS teams (
     team_id INT PRIMARY KEY AUTO_INCREMENT,
     team_name VARCHAR(100) NOT NULL UNIQUE,
@@ -59,7 +59,6 @@ CREATE TABLE IF NOT EXISTS teams (
     FOREIGN KEY (head_coach_id) REFERENCES users(user_id)
 );
 
--- Create players table
 CREATE TABLE IF NOT EXISTS players (
     player_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT UNIQUE,
@@ -78,7 +77,6 @@ CREATE TABLE IF NOT EXISTS players (
     FOREIGN KEY (team_id) REFERENCES teams(team_id)
 );
 
--- Create player_statistics table
 CREATE TABLE IF NOT EXISTS player_statistics (
     stat_id INT PRIMARY KEY AUTO_INCREMENT,
     player_id INT,

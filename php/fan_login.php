@@ -1,13 +1,14 @@
+
 <?php
 session_start();
 require_once __DIR__ . '/../config/db.php';
 
-// Clear any existing session
+//this file is just for those who havent created an account yet to view the web page
+
 session_unset();
 session_destroy();
 session_start();
 
-// Start a new session with the fan account (ID 12)
 $stmt = $pdo->prepare('SELECT u.user_id, u.username, u.role_id, r.role_name 
                        FROM users u 
                        JOIN roles r ON u.role_id = r.role_id 

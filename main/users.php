@@ -52,6 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else if ($role === 'coach') {
                     $stmt = $pdo->prepare("UPDATE teams SET head_coach_id = ? WHERE team_id = ?");
                     $stmt->execute([$user_id, $team_id]);
+                } else if ($role === 'statistician') {
+                    $stmt = $pdo->prepare("UPDATE teams SET statistician_id = NULL WHERE statistician_id = ?");
+                    $stmt->execute([$user_id]);
+                    
+                    // Then assign the user as statistician to the selected team
+                    $stmt = $pdo->prepare("UPDATE teams SET statistician_id = ? WHERE team_id = ?");
+                    $stmt->execute([$user_id, $team_id]);
                 }
                 break;
 
@@ -59,6 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $user_id = $_POST['user_id'];
                 // Set head_coach_id to NULL in teams where this user is the coach
                 $stmt = $pdo->prepare("UPDATE teams SET head_coach_id = NULL WHERE head_coach_id = ?");
+                $stmt->execute([$user_id]);
+                // Set statistician_id to NULL in teams where this user is the statistician
+                $stmt = $pdo->prepare("UPDATE teams SET statistician_id = NULL WHERE statistician_id = ?");
                 $stmt->execute([$user_id]);
                 // Now delete the user
                 $stmt = $pdo->prepare("DELETE FROM users WHERE user_id = ?");
@@ -68,12 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Fetch all users with their roles - Fixed query
 $query = "
     SELECT DISTINCT u.*, r.role_name, 
     CASE 
         WHEN u.role_id = 3 THEN p.team_id  -- Player
         WHEN u.role_id = 2 THEN (SELECT team_id FROM teams WHERE head_coach_id = u.user_id LIMIT 1)  -- Coach
+        WHEN u.role_id = 4 THEN (SELECT team_id FROM teams WHERE statistician_id = u.user_id LIMIT 1)  -- Statistician
         ELSE NULL 
     END as team_id,
     t.team_name
@@ -82,20 +92,30 @@ $query = "
     LEFT JOIN players p ON u.user_id = p.user_id
     LEFT JOIN teams t ON 
         (u.role_id = 3 AND p.team_id = t.team_id) OR  -- Player's team
-        (u.role_id = 2 AND t.head_coach_id = u.user_id)  -- Coach's team
+        (u.role_id = 2 AND t.head_coach_id = u.user_id) OR  -- Coach's team
+        (u.role_id = 4 AND t.statistician_id = u.user_id)  -- Statistician's team
     ORDER BY u.last_name, u.first_name
 ";
 $result = $pdo->query($query);
 
 // Fetch all teams for dropdown
-$teams_query = "SELECT team_id, team_name FROM teams ORDER BY team_name";
-$teams_result = $pdo->query($teams_query);
-$teams = $teams_result->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $pdo->prepare("SELECT team_id, team_name FROM teams ORDER BY team_name ASC");
+$stmt->execute();
+$teams = $stmt->fetchAll();
 
 // Fetch all roles for dropdown
 $roles_query = "SELECT role_name FROM roles ORDER BY role_name";
 $roles_result = $pdo->query($roles_query);
 $roles = $roles_result->fetchAll(PDO::FETCH_ASSOC);
+
+// Fetch all games
+$stmt = $pdo->prepare("SELECT g.*, ht.team_name AS home_team, at.team_name AS away_team 
+                       FROM team_schedule g 
+                       LEFT JOIN teams ht ON g.home_team_id = ht.team_id 
+                       LEFT JOIN teams at ON g.away_team_id = at.team_id 
+                       ORDER BY g.game_date ASC");
+$stmt->execute();
+$games = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
